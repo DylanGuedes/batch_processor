@@ -42,7 +42,7 @@ defmodule BatchProcessorWeb.JobControllerTest do
     |> Map.get(:resp_body)
     |> Poison.decode!
     |> Map.get("job_id")
-
+    
     conn = get(conn, job_path(conn, :retrieve_params, %{"job_id" => job_id}))
 
     assert json_response(conn, 200)==params

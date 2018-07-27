@@ -17,9 +17,13 @@ defmodule BatchProcessor.LinearRegressionHandler do
     end
   end
 
+  def run_linear_regression(params) do
+    {:success, JobManager.register_job("linear_regression", params)}
+  end
+
   def handle(params) do
     case missing_params(params) do
-      [] -> {:success, JobManager.register_job(Ecto.UUID.generate(), params)}
+      [] -> run_linear_regression(params)
       missing_params_list -> {:error, "Missing param(s) #{missing_params_list}"}
     end
   end

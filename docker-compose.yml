@@ -24,6 +24,7 @@ services:
       - 6066:6066
       - 7077:7077
       - 9999:9999
+      - 18080:18080
     volumes:
       - ./conf/master:/conf
       - ./data:/tmp/data
