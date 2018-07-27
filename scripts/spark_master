@@ -1,0 +1,3 @@
+#!/bin/bash
+pip3 install numpy scipy requests kafka utm
+bin/spark-class org.apache.spark.deploy.master.Master -h master
