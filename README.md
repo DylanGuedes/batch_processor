@@ -1,20 +1,15 @@
 # BatchProcessor
 
-To start your Phoenix server:
+## Running
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+1. With a working docker and docker-compose environment, run:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+```
+docker-compose up -d
+```
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+(that's it)
 
-## Learn more
+The server will be available at [`localhost:4545`](http://localhost:4545).
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## Running Tests

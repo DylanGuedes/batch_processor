@@ -36,4 +36,12 @@ defmodule BatchProcessorWeb.JobController do
     |> put_status(:ok)
     |> json(log)
   end
+
+  def index(conn, _params) do
+    jobs = JobManager.registered_jobs
+
+    conn
+    |> put_status(:ok)
+    |> json(%{"jobs" => jobs})
+  end
 end

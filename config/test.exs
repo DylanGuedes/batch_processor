@@ -15,5 +15,5 @@ config :batch_processor, BatchProcessor.Repo,
   username: "postgres",
   password: "postgres",
   database: "batch_processor_test",
-  hostname: "localhost",
+  hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox

@@ -54,5 +54,5 @@ config :batch_processor, BatchProcessor.Repo,
   username: "postgres",
   password: "postgres",
   database: "batch_processor_dev",
-  hostname: "localhost",
+  hostname: "db",
   pool_size: 10

@@ -6,16 +6,17 @@ defmodule BatchProcessor.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
-    # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
       supervisor(BatchProcessor.Repo, []),
-      # Start the endpoint when the application starts
-      supervisor(BatchProcessorWeb.Endpoint, []),
-      # Start your own worker by calling: BatchProcessor.Worker.start_link(arg1, arg2, arg3)
-      # worker(BatchProcessor.Worker, [arg1, arg2, arg3]),
-      worker(BatchProcessor.JobManager, [])
+      supervisor(BatchProcessorWeb.Endpoint, [])
     ]
+
+    children = case Mix.env do
+      :test -> children
+      _ -> children ++ [{BatchProcessor.JobManager, []}]
+    end
+
+    # Define workers and child supervisors to be supervised
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -28,7 +28,7 @@ defmodule BatchProcessor.LinearRegressionHandler do
   def handle(params) do
     case missing_params(params) do
       [] -> run_linear_regression(params)
-      missing_params_list -> {:error, "Missing param(s) #{missing_params_list}"}
+      missing_params_list -> {:error, "Missing param(s) #{Enum.join(missing_params_list, ", ")}"}
     end
   end
 end

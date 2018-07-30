@@ -3,8 +3,8 @@ defmodule BatchProcessor.JobManager do
 
   alias BatchProcessor.DockerJob
 
-  @spec start_link() :: {atom, pid()}
-  def start_link,
+  @spec start_link(any) :: {atom, pid()}
+  def start_link(_opts),
     do: Agent.start_link(fn -> %{} end, name: __MODULE__)
 
   @spec register_job(String.t, map) :: String.t
@@ -39,5 +39,10 @@ defmodule BatchProcessor.JobManager do
       nil -> ""
       job -> DockerJob.retrieve_log(job)
     end
+  end
+
+  @spec job_pid(String.t) :: pid
+  def job_pid(uuid) do
+    Agent.get(__MODULE__, fn state -> Map.get(state, uuid) end)
   end
 end

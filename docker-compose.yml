@@ -1,6 +1,27 @@
 version: '2.1'
 
 services:
+  batch-processor:
+    container_name: 'batch-processor'
+    build: .
+    ports:
+      - 4545:4545
+    volumes:
+      - ./_build:/opt/app/_build
+      - ./lib/:/opt/app/lib
+      - ./config/:/opt/app/config
+      - ./priv:/opt/app/priv
+      - ./scripts:/opt/app/scripts
+      - ./spark_jobs:/opt/app/spark_jobs
+      - ./test:/opt/app/test
+      - ./mix.exs:/opt/app/mix.exs
+      - ./mix.lock:/opt/app/mix.lock
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  db:
+    container_name: db
+    image: 'postgres:10'
+
   master:
     image: 'gettyimages/spark'
     command: /scripts/spark_master

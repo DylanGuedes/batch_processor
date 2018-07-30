@@ -1,7 +1,10 @@
 defmodule BatchProcessorWeb.JobControllerTest do
   use BatchProcessorWeb.ConnCase
 
-  def setup do
+  alias BatchProcessor.JobManager
+
+  setup do
+    _pid = start_supervised!(JobManager)
     {:ok, conn: build_conn()}
   end
 

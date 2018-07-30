@@ -24,6 +24,7 @@ defmodule BatchProcessorWeb.Router do
 
     post "/run_job", JobController, :run_job
     get "/retrieve_params", JobController, :retrieve_params
-    get "/retrieve_log", JobController, :retrieve_params
+    get "/retrieve_log", JobController, :retrieve_log
+    get "/jobs", JobController, :index
   end
 end

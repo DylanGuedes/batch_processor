@@ -11,7 +11,7 @@ config :batch_processor,
 
 # Configures the endpoint
 config :batch_processor, BatchProcessorWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "db"],
   secret_key_base: "gXobmTsMbqjk69LoJhWkJMENIMgXG0eTgi9a8wem58yyluFRoMiRJGrzvs04L5OB",
   render_errors: [view: BatchProcessorWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: BatchProcessor.PubSub,

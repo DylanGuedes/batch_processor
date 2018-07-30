@@ -66,7 +66,6 @@ defmodule BatchProcessor.DockerJob do
   def handle_cast(:run, state) do
     docker_arguments = [
       "exec",
-      "-i", # exec mode
       "master", # container name
       "spark-submit",
       "/jobs/#{state["spark_job_name"]}.py",
