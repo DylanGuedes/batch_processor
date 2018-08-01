@@ -3,6 +3,8 @@
 /db
 /deps
 /*.ez
+.ipynb_checkpoints
+data
 
 # Generated on crash by the VM
 erl_crash.dump
