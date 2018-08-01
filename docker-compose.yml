@@ -17,7 +17,7 @@ services:
       - ./mix.lock:/opt/app/mix.lock
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      SPARK_DRIVER_PYTHON: "ipython"
+      TEST_DB: "db"
 
   db:
     container_name: db
@@ -32,6 +32,7 @@ services:
       MASTER: spark://master:7077
       SPARK_CONF_DIR: /conf
       SPARK_PUBLIC_DNS: localhost
+      SPARK_DRIVER_PYTHON: "ipython"
     expose:
       - 7001
       - 7002
