@@ -16,6 +16,7 @@ services:
       - ./mix.exs:/opt/app/mix.exs
       - ./mix.lock:/opt/app/mix.lock
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./cover:/opt/app/cover
     environment:
       TEST_DB: "db"
 
