@@ -83,6 +83,8 @@ defmodule BatchProcessor.DockerJob do
     do: {:reply, state["log"], state}
   def handle_call(:retrieve_state, _from, state),
     do: {:reply, state["state"], state}
-  def handle_call(:retrieve_params, _from, state),
-    do: {:reply, state["spark_params"], state}
+  def handle_call(:retrieve_params, _from, state) do
+    IO.inspect state
+    {:reply, state["spark_params"], state}
+  end
 end

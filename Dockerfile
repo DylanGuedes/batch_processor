@@ -29,4 +29,6 @@ RUN cd assets/ && \
     cd - && \
     mix do compile, phx.digest
 
+RUN mix ecto.create
+
 CMD ["mix", "phx.server"]

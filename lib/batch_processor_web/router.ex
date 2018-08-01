@@ -22,8 +22,9 @@ defmodule BatchProcessorWeb.Router do
   scope "/api", BatchProcessorWeb do
     pipe_through :api
 
-    post "/run_job", JobController, :run_job
+    post "/register_job", JobController, :register_job
     get "/retrieve_params", JobController, :retrieve_params
+    get "/start_job", JobController, :start_job
     get "/retrieve_log", JobController, :retrieve_log
     get "/jobs", JobController, :index
   end

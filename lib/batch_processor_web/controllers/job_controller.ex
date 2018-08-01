@@ -3,12 +3,13 @@ defmodule BatchProcessorWeb.JobController do
 
   alias BatchProcessor.LinearRegressionHandler
   alias BatchProcessor.JobManager
+  alias BatchProcessor.DockerJob
 
   @handlers %{
     "linear_regression" => LinearRegressionHandler
   }
 
-  def run_job(conn, params) do
+  def register_job(conn, params) do
     case @handlers[params["job"]].handle(params) do
       {:success, job_id} ->
         conn
@@ -19,6 +20,16 @@ defmodule BatchProcessorWeb.JobController do
         |> put_status(:bad_request)
         |> json(%{reason: reason})
     end
+  end
+
+  def start_job(conn, %{"job_id" => job_id}) do
+    pid = job_id |> JobManager.job_pid
+    
+    spawn(fn -> DockerJob.run(pid) end)
+
+    conn
+    |> put_status(:ok)
+    |> json(%{})
   end
 
   def retrieve_params(conn, %{"job_id" => job_id}) do

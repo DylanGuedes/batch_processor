@@ -7,7 +7,6 @@ services:
     ports:
       - 4545:4545
     volumes:
-      - ./_build:/opt/app/_build
       - ./lib/:/opt/app/lib
       - ./config/:/opt/app/config
       - ./priv:/opt/app/priv
