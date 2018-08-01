@@ -16,6 +16,8 @@ services:
       - ./mix.exs:/opt/app/mix.exs
       - ./mix.lock:/opt/app/mix.lock
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      SPARK_DRIVER_PYTHON: "ipython"
 
   db:
     container_name: db

@@ -16,7 +16,7 @@ defmodule BatchProcessorWeb.JobControllerTest do
       "job" => "linear_regression"
     }
 
-    conn = post(conn, job_path(conn, :run_job, params))
+    conn = post(conn, job_path(conn, :register_job, params))
     assert json_response(conn, 201)
   end
 
@@ -26,7 +26,7 @@ defmodule BatchProcessorWeb.JobControllerTest do
       "job" => "linear_regression"
     }
 
-    conn = post(conn, job_path(conn, :run_job, params))
+    conn = post(conn, job_path(conn, :register_job, params))
     assert json_response(conn, 400) == %{
       "reason" => "Missing param(s) capability"
     }
@@ -41,7 +41,7 @@ defmodule BatchProcessorWeb.JobControllerTest do
     }
 
     job_id = conn
-    |> post(job_path(conn, :run_job, params))
+    |> post(job_path(conn, :register_job, params))
     |> Map.get(:resp_body)
     |> Poison.decode!
     |> Map.get("job_id")

@@ -82,12 +82,12 @@ def save_model(model, publish_strategy):
 
 def retrieve_params(job_id):
     url = DEFAULT_BATCH_PROCESSOR_URL + '/api/retrieve_params'
-    response = requests.get(url, params={'job_id': my_uuid})
+    response = requests.get(url, params={'job_id': job_id})
     return response.json()
 
 
 if __name__ == '__main__':
-    my_uuid = sys.argv[1]
+    my_uuid = str(sys.argv[1])
     params = retrieve_params(my_uuid)
 
     publish_strategy = extract_publish_strategy(params["publish_strategy"])
@@ -108,9 +108,8 @@ if __name__ == '__main__':
 
     assembler = VectorAssembler(inputCols=params["features"], outputCol="features")
     assembled_df = assembler.transform(df)
-    train, test = assembled_df.randomSplit([0.9, 0.1], seed=0)
     lr = (LinearRegression(maxIter=10)
             .setLabelCol(params["label_col"])
             .setFeaturesCol("features"))
-    model = lr.fit(train)
+    model = lr.fit(assembled_df)
     save_model(model, publish_strategy)

@@ -25,6 +25,8 @@ defmodule BatchProcessor.DockerJob do
 
   use GenServer
 
+  alias BatchProcessor.JobManager
+
   @spec init(map) :: {:ok, map}
   def init(initial_state),
     do: {:ok, initial_state}
@@ -73,8 +75,20 @@ defmodule BatchProcessor.DockerJob do
     ]
 
     state = Map.put(state, "state", :running)
-    {logs, 0} = System.cmd("docker", docker_arguments, stderr_to_stdout: true)
-    state = state |> Map.put("state", :finished) |> Map.put("log", logs)
+    pid = self()
+
+    spawn fn ->
+      {log, status} = System.cmd("docker", docker_arguments, stderr_to_stdout: true)
+      GenServer.cast(pid, {:finished, log, status})
+    end
+    {:noreply, state}
+  end
+  def handle_cast({:finished, log, status}, state) do
+    state = state
+    |> Map.put("state", :finished)
+    |> Map.put("log", log)
+    |> Map.put("final_status", status)
+
     {:noreply, state}
   end
 
@@ -84,7 +98,6 @@ defmodule BatchProcessor.DockerJob do
   def handle_call(:retrieve_state, _from, state),
     do: {:reply, state["state"], state}
   def handle_call(:retrieve_params, _from, state) do
-    IO.inspect state
     {:reply, state["spark_params"], state}
   end
 end
