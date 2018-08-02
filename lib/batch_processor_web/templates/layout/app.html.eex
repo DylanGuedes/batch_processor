@@ -12,24 +12,25 @@
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+    <div class="ui fixed inverted menu">
+      <%= render "header.html", conn: @conn %>
+    </div>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <%= if get_flash(@conn, :info) do %>
+      <p class="ui green message" role="alert"><%= get_flash(@conn, :info) %></p>
+    <% end %>
+    <%= if get_flash(@conn, :error) do %>
+      <p class="ui red message" role="alert"><%= get_flash(@conn, :error) %></p>
+    <% end %>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+    <div class="ui main text container">
+      <%= render @view_module, @view_template, assigns %>
+    </div>
 
-    </div> <!-- /container -->
+    <div class="ui inverted vertical footer segment">
+      <%= render "footer.html" %>
+    </div>
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

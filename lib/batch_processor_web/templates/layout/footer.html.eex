@@ -1,0 +1,16 @@
+<div class="ui center aligned container">
+  <div class="ui stackable inverted divided grid">
+    <div class="three wide column">
+      <h4 class="ui inverted header">Hi</h4>
+      <div class="ui inverted link list">
+        <a class="item" href="#">Item 1</a>
+      </div>
+    </div>
+    <div class="three wide column">
+    </div>
+    <div class="three wide column">
+    </div>
+    <div class="three wide column">
+    </div>
+  </div>
+</div>

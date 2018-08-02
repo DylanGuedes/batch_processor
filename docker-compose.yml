@@ -7,16 +7,17 @@ services:
     ports:
       - 4545:4545
     volumes:
-      - ./lib/:/opt/app/lib
-      - ./config/:/opt/app/config
-      - ./priv:/opt/app/priv
-      - ./scripts:/opt/app/scripts
-      - ./spark_jobs:/opt/app/spark_jobs
-      - ./test:/opt/app/test
-      - ./mix.exs:/opt/app/mix.exs
-      - ./mix.lock:/opt/app/mix.lock
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./cover:/opt/app/cover
+      - ./:/opt/app
+      # - ./lib/:/opt/app/lib
+      # - ./config/:/opt/app/config
+      # - ./priv:/opt/app/priv
+      # - ./scripts:/opt/app/scripts
+      # - ./spark_jobs:/opt/app/spark_jobs
+      # - ./test:/opt/app/test
+      # - ./mix.exs:/opt/app/mix.exs
+      # - ./mix.lock:/opt/app/mix.lock
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - ./cover:/opt/app/cover
     environment:
       TEST_DB: "db"
 
