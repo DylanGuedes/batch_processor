@@ -17,7 +17,9 @@ defmodule BatchProcessorWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/queries", QueryController, only: [:index]
+
+    resources "/job_params", JobParamsController
+    post "/add_schema_field", JobParamsController, :add_schema_field
   end
 
   scope "/api", BatchProcessorWeb do

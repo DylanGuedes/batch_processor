@@ -1,0 +1,16 @@
+<h1 class="ui header">Most Common Queries</h1>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Query Title</th>
+      <th>Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Unknown</td>
+      <td>Check</td>
+    </tr>
+  </tbody>
+</table>

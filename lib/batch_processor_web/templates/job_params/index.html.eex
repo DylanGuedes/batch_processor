@@ -1,0 +1,22 @@
+<h2>Registered Jobs</h2>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for job_params <- @job_params do %>
+    <tr>
+      <td><span><%= link job_params.name, to: job_params_path(@conn, :show, job_params), class: "btn btn-default btn-xs" %></span></td>
+      <td><span><%= link "Edit", to: job_params_path(@conn, :edit, job_params), class: "btn btn-default btn-xs" %></span></td>
+      <td><span><%= link "Delete", to: job_params_path(@conn, :delete, job_params), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Job params", to: job_params_path(@conn, :new) %></span>

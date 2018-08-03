@@ -1,0 +1,54 @@
+<h1 class="ui header"><%= @job.name %></h2>
+
+<div class="ui three columns very relaxed grid">
+  <div class="column">
+    <h3 class="ui header">Schema</h2>
+    <table class="ui table">
+      <thead>
+        <tr>
+          <td>Field</td>
+          <td>Type</td>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for {k, v} <- Map.get(@spark_params, "schema") do %>
+          <tr>
+            <td><%= k %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h5 class="ui header">Add schema field</h5>
+
+    <%= Map.get(@spark_params, :schema) %>
+
+    <%= form_for @conn, job_params_path(@conn, :add_schema_field), [class: "ui form"], fn f -> %>
+      <div class="field">
+        <%= label f, :field, "Field Name" %>
+        <%= text_input f, :field, class: "ui field" %>
+      </div>
+
+      <div class="field">
+        <%= label f, :field_type %>
+        <%= select f, :field_type, ["string", "double", "integer"] %>
+      </div>
+
+      <%= hidden_input f, :id, value: @job.id %>
+
+      <%= submit "Add Field", class: "ui button green" %>
+    <% end %>
+  </div>
+
+  <div class="column">
+    <h3 class="ui header">Free Params</h3>
+  </div>
+
+  <div class="column">
+    <h3 class="ui header">Extras</h3>
+  </div>
+</div>
+
+<span><%= link "Edit", to: job_params_path(@conn, :edit, @job) %></span>
+<span><%= link "Back", to: job_params_path(@conn, :index) %></span>
