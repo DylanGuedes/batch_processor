@@ -1,0 +1,26 @@
+<h4 class="ui header">Publish Strategy For Results</h4>
+
+<p>
+The results of this job will be stored as <strong><%= @spark_params["publish_strategy"]["name"] %></strong>.
+If needed, the final path will be <strong><%= @spark_params["publish_strategy"]["path"] %></strong>.
+</p>
+
+<div class="ui segment center aligned ">
+  <%= form_for @conn, job_params_path(@conn, :update_publish_strategy), [class: "ui form"], fn f -> %>
+    <div class="field">
+      <%= label f, :strategy, "Publish Strategy" %>
+      <%= select f, :strategy, [{"File", "file"},{"Console", "console"},{"HDFS", "hdfs"}], class: "ui field" %>
+    </div>
+
+    <div class="field">
+      <%= label f, :path, "File Path" %>
+      <%= text_input f, :path, class: "ui field", value: @spark_params["publish_strategy"]["path"] %>
+    </div>
+
+    <%= hidden_input f, :id, value: @job.id %>
+
+    <button class="fluid ui left labeled icon blue button" type="submit">
+      <i class="icon plus"></i>Update Publish Strategy
+    </button>
+  <% end %>
+</div>

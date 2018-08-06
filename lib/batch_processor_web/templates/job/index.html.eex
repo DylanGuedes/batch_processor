@@ -1,0 +1,24 @@
+<h2>Jobs</h2>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>UUID</th>
+      <th>Actions</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for {job_uuid, job_pid, job_state} <- @jobs do %>
+      <tr>
+        <td><%= job_uuid %></td>
+        <td>
+          <a href="#">Log</a>
+        </td>
+        <td class="<%= row_state(job_state) %>">
+          <span href="#"><%= job_state %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

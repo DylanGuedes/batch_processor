@@ -1,0 +1,47 @@
+<h4 class="ui header">Current Schema</h4>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Field Name</th>
+      <th>Type</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for {k, v} <- Map.get(@spark_params, "schema") do %>
+      <tr>
+        <td><%= k %></td>
+        <td><%= v %></td>
+        <td>
+          <a href="<%= job_params_path(@conn, :remove_schema_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
+            <i class="remove icon"></i>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="ui divider"></div>
+
+<h4 class="ui header">Add schema field</h4>
+<div class="ui segment center aligned ">
+  <%= form_for @conn, job_params_path(@conn, :add_schema_field), [class: "ui form"], fn f -> %>
+    <div class="field">
+      <%= label f, :field, "Field Name" %>
+      <%= text_input f, :field, class: "ui field" %>
+    </div>
+
+    <div class="field">
+      <%= label f, :field_type %>
+      <%= select f, :field_type, ["string", "double", "integer"] %>
+    </div>
+
+    <%= hidden_input f, :id, value: @job.id %>
+
+    <button class="fluid ui left labeled icon green button" type="submit">
+      <i class="icon plus"></i>Add field to schema
+    </button>
+  <% end %>
+</div>

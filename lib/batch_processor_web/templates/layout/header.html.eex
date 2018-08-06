@@ -1,4 +1,5 @@
 <div class="ui container">
   <%= link("InterSCity", to: "/", class: "header item") %>
   <%= link("Most Common Queries", to: job_params_path(@conn, :index), class: "item") %>
+  <%= link("Jobs", to: job_path(@conn, :index), class: "item") %>
 </div>

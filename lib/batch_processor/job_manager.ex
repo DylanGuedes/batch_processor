@@ -33,6 +33,13 @@ defmodule BatchProcessor.JobManager do
   def registered_jobs,
     do: Agent.get(__MODULE__, fn state -> Map.keys(state) end)
 
+  @spec registered_jobs() :: list()
+  def jobs_list_with_detail do
+    Agent.get(__MODULE__, fn state -> Map.keys(state) end)
+    |> Enum.map(fn x -> {x, job_pid(x)} end)
+    |> Enum.map(fn {x, x_pid} -> {x, x_pid, DockerJob.status(x_pid)} end)
+  end
+
   @spec retrieve_job_log(String.t) :: String.t
   def retrieve_job_log(uuid) do
     case Agent.get(__MODULE__, fn state -> Map.get(state, uuid) end) do

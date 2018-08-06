@@ -2,72 +2,31 @@
 <h1 class="ui header"><%= @job.name %></h2>
 
 <div class="ui top attached tabular menu">
-  <a class="item active" data-tab="info">Info</a>
-  <a class="item" data-tab="schema">Schema</a>
-  <a class="item" data-tab="free-params">Free Params</a>
-  <a class="item" data-tab="extras">Extras</a>
+  <a class="item <%= active_tab_tag(@current_tab, "info") %>" data-tab="info">Info</a>
+  <a class="item <%= active_tab_tag(@current_tab, "schema") %>" data-tab="schema">Schema</a>
+  <a class="item <%= active_tab_tag(@current_tab, "publish-strategy") %>" data-tab="publish-strategy">Publish Strategy</a>
+  <a class="item <%= active_tab_tag(@current_tab, "functional") %>" data-tab="functional">Functional Params</a>
+  <a class="item <%= active_tab_tag(@current_tab, "interscity") %>" data-tab="interscity">InterSCity configuration</a>
 </div>
 
-<div class="ui bottom attached tab segment active" data-tab="info">
-  <p>Times run'd: 2405</p>
+<div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "info") %>" data-tab="info">
+  <%= render "info_tab.html", [job: @job, spark_params: @spark_params, conn: @conn] %>
 </div>
 
-<div class="ui bottom attached tab segment" data-tab="schema">
-  <h4 class="ui header">Current Schema</h4>
-
-  <table class="ui celled table">
-    <thead>
-      <tr>
-        <th>Field Name</th>
-        <th>Type</th>
-        <th>Remove</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for {k, v} <- Map.get(@spark_params, "schema") do %>
-        <tr>
-          <td><%= k %></td>
-          <td><%= v %></td>
-          <td>
-            <a href="<%= job_params_path(@conn, :remove_schema_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
-              <i class="remove icon"></i>
-            </a>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="ui divider"></div>
-
-  <h4 class="ui header">Add schema field</h4>
-  <div class="ui segment center aligned ">
-    <%= form_for @conn, job_params_path(@conn, :add_schema_field), [class: "ui form"], fn f -> %>
-      <div class="field">
-        <%= label f, :field, "Field Name" %>
-        <%= text_input f, :field, class: "ui field" %>
-      </div>
-
-      <div class="field">
-        <%= label f, :field_type %>
-        <%= select f, :field_type, ["string", "double", "integer"] %>
-      </div>
-
-      <%= hidden_input f, :id, value: @job.id %>
-
-      <button class="fluid ui left labeled icon green button" type="submit">
-        <i class="icon plus"></i>Add field to schema
-      </button>
-    <% end %>
-  </div>
+<div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "schema") %>" data-tab="schema">
+  <%= render "schema_tab.html", [job: @job, spark_params: @spark_params, conn: @conn] %>
 </div>
 
-<div class="ui bottom attached tab segment" data-tab="free-params">
-  <h1>Free Params</h1>
+<div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "publish-strategy") %>" data-tab="publish-strategy">
+  <%= render "publish_strategy_tab.html", [job: @job, spark_params: @spark_params, conn: @conn] %>
 </div>
 
-<div class="ui bottom attached tab segment" data-tab="extras">
-  <h1>Extras</h1>
+<div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "functional") %>" data-tab="functional">
+  <%= render "functional_params_tab.html", [job: @job, spark_params: @spark_params, conn: @conn] %>
+</div>
+
+<div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "interscity") %>" data-tab="interscity">
+  <%= render "interscity_tab.html", [job: @job, spark_params: @spark_params, conn: @conn] %>
 </div>
 
 <div class="ui horizontal divider">
@@ -78,7 +37,7 @@
 	<div class="ui buttons">
     <a href="<%= job_params_path(@conn, :schedule_spark_job, %{"id" => @job.id}) %>" class="ui left labeled icon button inverted green">
       <i class="play icon"></i>
-      Run Job
+      Schedule Job
     </a>
 
 		<button class="ui button inverted blue">

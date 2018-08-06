@@ -1,7 +1,7 @@
 defmodule BatchProcessor.LinearRegressionHandler do
   alias BatchProcessor.JobManager
 
-  @common_fields ["publish_strategy", "capability"]
+  @common_fields ["publish_strategy", "interscity"]
 
   @spec missing_keys(map, list) :: list
   def missing_keys(map, keys) do
@@ -12,9 +12,7 @@ defmodule BatchProcessor.LinearRegressionHandler do
   @spec missing_params(map) :: list
   def missing_params(params) do
     case missing_keys(params, @common_fields) do
-      [] ->
-        schema_field = "#{params["capability"]}_schema"
-        missing_keys(params, [schema_field])
+      [] -> missing_keys(params, ["schema"])
       missing_params_list -> missing_params_list
     end
   end

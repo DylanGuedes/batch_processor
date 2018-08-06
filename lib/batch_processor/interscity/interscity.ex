@@ -50,7 +50,11 @@ defmodule BatchProcessor.InterSCity do
 
   """
   def create_job_params(attrs \\ %{}) do
-    attrs = Map.put(attrs, "spark_params", %{schema: %{}, free_params: %{}, extras: %{}})
+    attrs = Map.put(attrs, "spark_params", %{
+      schema: %{},
+      publish_strategy: %{name: "file", format: "csv"},
+      functional_params: %{},
+      interscity: %{}})
 
     %JobParams{}
     |> JobParams.create_changeset(attrs)
