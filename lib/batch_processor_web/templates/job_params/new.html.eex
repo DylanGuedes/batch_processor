@@ -1,5 +1,5 @@
 <h2>New Job params</h2>
 
-<%= render "form.html", Map.put(assigns, :action, job_params_path(@conn, :create)) %>
+<%= render "form.html", [changeset: @changeset, conn: @conn, action: job_params_path(@conn, :create), handlers: @handlers] %>
 
 <span><%= link "Back", to: job_params_path(@conn, :index) %></span>

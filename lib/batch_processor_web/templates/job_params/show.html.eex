@@ -1,29 +1,47 @@
+
 <h1 class="ui header"><%= @job.name %></h2>
 
-<div class="ui three columns very relaxed grid">
-  <div class="column">
-    <h3 class="ui header">Schema</h2>
-    <table class="ui table">
-      <thead>
+<div class="ui top attached tabular menu">
+  <a class="item active" data-tab="info">Info</a>
+  <a class="item" data-tab="schema">Schema</a>
+  <a class="item" data-tab="free-params">Free Params</a>
+  <a class="item" data-tab="extras">Extras</a>
+</div>
+
+<div class="ui bottom attached tab segment active" data-tab="info">
+  <p>Times run'd: 2405</p>
+</div>
+
+<div class="ui bottom attached tab segment" data-tab="schema">
+  <h4 class="ui header">Current Schema</h4>
+
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>Field Name</th>
+        <th>Type</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {k, v} <- Map.get(@spark_params, "schema") do %>
         <tr>
-          <td>Field</td>
-          <td>Type</td>
+          <td><%= k %></td>
+          <td><%= v %></td>
+          <td>
+            <a href="<%= job_params_path(@conn, :remove_schema_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
+              <i class="remove icon"></i>
+            </a>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <%= for {k, v} <- Map.get(@spark_params, "schema") do %>
-          <tr>
-            <td><%= k %></td>
-            <td><%= v %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
 
-    <h5 class="ui header">Add schema field</h5>
+  <div class="ui divider"></div>
 
-    <%= Map.get(@spark_params, :schema) %>
-
+  <h4 class="ui header">Add schema field</h4>
+  <div class="ui segment center aligned ">
     <%= form_for @conn, job_params_path(@conn, :add_schema_field), [class: "ui form"], fn f -> %>
       <div class="field">
         <%= label f, :field, "Field Name" %>
@@ -37,18 +55,40 @@
 
       <%= hidden_input f, :id, value: @job.id %>
 
-      <%= submit "Add Field", class: "ui button green" %>
+      <button class="fluid ui left labeled icon green button" type="submit">
+        <i class="icon plus"></i>Add field to schema
+      </button>
     <% end %>
-  </div>
-
-  <div class="column">
-    <h3 class="ui header">Free Params</h3>
-  </div>
-
-  <div class="column">
-    <h3 class="ui header">Extras</h3>
   </div>
 </div>
 
-<span><%= link "Edit", to: job_params_path(@conn, :edit, @job) %></span>
-<span><%= link "Back", to: job_params_path(@conn, :index) %></span>
+<div class="ui bottom attached tab segment" data-tab="free-params">
+  <h1>Free Params</h1>
+</div>
+
+<div class="ui bottom attached tab segment" data-tab="extras">
+  <h1>Extras</h1>
+</div>
+
+<div class="ui horizontal divider">
+  Actions
+</div>
+
+<div class="ui center aligned basic segment">
+	<div class="ui buttons">
+    <a href="<%= job_params_path(@conn, :schedule_spark_job, %{"id" => @job.id}) %>" class="ui left labeled icon button inverted green">
+      <i class="play icon"></i>
+      Run Job
+    </a>
+
+		<button class="ui button inverted blue">
+			Edit Attributes
+		</button>
+
+		<button class="ui left labeled icon button inverted red">
+			Remove Job
+			<i class="trash icon"></i>
+		</button>
+	</div>
+</div>
+</div>

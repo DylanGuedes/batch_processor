@@ -50,8 +50,10 @@ defmodule BatchProcessor.InterSCity do
 
   """
   def create_job_params(attrs \\ %{}) do
+    attrs = Map.put(attrs, "spark_params", %{schema: %{}, free_params: %{}, extras: %{}})
+
     %JobParams{}
-    |> JobParams.changeset(attrs)
+    |> JobParams.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +71,7 @@ defmodule BatchProcessor.InterSCity do
   """
   def update_job_params(%JobParams{} = job_params, attrs) do
     job_params
-    |> JobParams.changeset(attrs)
+    |> JobParams.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -99,6 +101,6 @@ defmodule BatchProcessor.InterSCity do
 
   """
   def change_job_params(%JobParams{} = job_params) do
-    JobParams.changeset(job_params, %{})
+    JobParams.create_changeset(job_params, %{})
   end
 end

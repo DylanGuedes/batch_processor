@@ -13,7 +13,9 @@
     <tr>
       <td><span><%= link job_params.name, to: job_params_path(@conn, :show, job_params), class: "btn btn-default btn-xs" %></span></td>
       <td><span><%= link "Edit", to: job_params_path(@conn, :edit, job_params), class: "btn btn-default btn-xs" %></span></td>
-      <td><span><%= link "Delete", to: job_params_path(@conn, :delete, job_params), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span></td>
+      <td>
+        <%= link "Delete", to: job_params_path(@conn, :remove_job, %{"id" => job_params.id}), class: "ui button" %>
+      </td>
     </tr>
 <% end %>
   </tbody>

@@ -9,9 +9,11 @@ defmodule BatchProcessorWeb.JobParamsController do
     render(conn, "index.html", job_params: job_params)
   end
 
+  @handlers [LinearRegressionHandler]
+
   def new(conn, _params) do
-    changeset = InterSCity.change_job_params(%JobParams{})
-    render(conn, "new.html", changeset: changeset)
+    changeset = InterSCity.change_job_params(%JobParams{spark_params: %{schema: %{}, free_params: %{}, extras: %{}}})
+    render(conn, "new.html", %{handlers: @handlers, changeset: changeset})
   end
 
   def create(conn, %{"job_params" => job_params_params}) do
@@ -26,6 +28,7 @@ defmodule BatchProcessorWeb.JobParamsController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.puts "job aprams"
     job_params = InterSCity.get_job_params!(id)
     IO.inspect job_params
     spark_params = Map.get(job_params, :spark_params)
@@ -51,7 +54,7 @@ defmodule BatchProcessorWeb.JobParamsController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def remove_job(conn, %{"id" => id}) do
     job_params = InterSCity.get_job_params!(id)
     {:ok, _job_params} = InterSCity.delete_job_params(job_params)
 
@@ -67,5 +70,19 @@ defmodule BatchProcessorWeb.JobParamsController do
     new_spark_params = Map.get(job_params, :spark_params) |> Map.put("schema", new_schema)
     InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
     redirect(conn, to: job_params_path(conn, :show, job_params))
+  end
+
+  def remove_schema_field(conn, %{"id" => id, "field" => field}) do
+    job_params = InterSCity.get_job_params!(id)
+    old_schema = Map.get(job_params, :spark_params) |> Map.get("schema")
+    new_schema = Map.delete(old_schema, field)
+    new_spark_params = Map.get(job_params, :spark_params) |> Map.put("schema", new_schema)
+    changeset = InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    conn
+    |> put_flash(:error, "Field #{field} removed from schema.")
+    |> redirect(to: job_params_path(conn, :show, job_params))
+  end
+
+  def schedule_spark_job(conn, %{"id" => id}) do
   end
 end

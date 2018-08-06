@@ -18,8 +18,11 @@ defmodule BatchProcessorWeb.Router do
 
     get "/", PageController, :index
 
-    resources "/job_params", JobParamsController
+    resources "/job_params", JobParamsController, only: [:index, :show, :new, :create, :edit]
     post "/add_schema_field", JobParamsController, :add_schema_field
+    get "/remove_schema_field", JobParamsController, :remove_schema_field
+    get "/schedule_spark_job", JobParamsController, :schedule_spark_job
+    get "/remove_job", JobParamsController, :remove_job
   end
 
   scope "/api", BatchProcessorWeb do

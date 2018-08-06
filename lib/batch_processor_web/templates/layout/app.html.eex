@@ -12,24 +12,27 @@
   </head>
 
   <body>
-    <div class="ui fixed inverted menu">
+    <div class="ui menu">
       <%= render "header.html", conn: @conn %>
     </div>
 
     <%= if get_flash(@conn, :info) do %>
       <p class="ui green message" role="alert"><%= get_flash(@conn, :info) %></p>
     <% end %>
+
     <%= if get_flash(@conn, :error) do %>
-      <p class="ui red message" role="alert"><%= get_flash(@conn, :error) %></p>
+      <div class="ui negative message">
+        <div class="header">
+          <p><%= get_flash(@conn, :error) %></p>
+        </div>
+      </div>
     <% end %>
 
     <div class="ui main text container">
       <%= render @view_module, @view_template, assigns %>
     </div>
 
-    <div class="ui inverted vertical footer segment">
-      <%= render "footer.html" %>
-    </div>
+    <%= render "footer.html" %>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
