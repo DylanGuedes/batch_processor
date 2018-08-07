@@ -79,6 +79,10 @@ defmodule BatchProcessor.DockerJob do
 
     spawn fn ->
       {log, status} = System.cmd("docker", docker_arguments, stderr_to_stdout: true)
+      case status do
+        0 -> GenServer.cast(pid, {:finished, log, status})
+        _ -> GenServer.cast(pid, {:error, log, status})
+      end
       GenServer.cast(pid, {:finished, log, status})
     end
     {:noreply, state}
@@ -86,6 +90,14 @@ defmodule BatchProcessor.DockerJob do
   def handle_cast({:finished, log, status}, state) do
     state = state
     |> Map.put("state", :finished)
+    |> Map.put("log", log)
+    |> Map.put("final_status", status)
+
+    {:noreply, state}
+  end
+  def handle_cast({:error, log, status}, state) do
+    state = state
+    |> Map.put("state", :error)
     |> Map.put("log", log)
     |> Map.put("final_status", status)
 

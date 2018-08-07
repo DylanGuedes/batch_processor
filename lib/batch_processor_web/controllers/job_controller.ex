@@ -12,4 +12,14 @@ defmodule BatchProcessorWeb.JobController do
     conn
     |> render("index.html", jobs: jobs)
   end
+
+  def start_job(conn, %{"uuid" => uuid}) do
+    pid = uuid |> JobManager.job_pid
+    
+    spawn(fn -> DockerJob.run(pid) end)
+
+    conn
+    |> put_flash(:info, "Job successfully started!")
+    |> redirect(to: job_path(conn, :index))
+  end
 end

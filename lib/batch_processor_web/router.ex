@@ -17,6 +17,7 @@ defmodule BatchProcessorWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/start_job", JobController, :start_job
 
     resources "/job_params", JobParamsController, only: [:index, :show, :new, :create, :edit]
     resources "/jobs", JobController, only: [:index]
@@ -30,10 +31,10 @@ defmodule BatchProcessorWeb.Router do
   scope "/api", BatchProcessorWeb do
     pipe_through :api
 
-    post "/register_job", JobController, :register_job
-    get "/retrieve_params", JobController, :retrieve_params
-    get "/start_job", JobController, :start_job
-    get "/retrieve_log", JobController, :retrieve_log
+    post "/register_job", API.JobController, :register_job
+    get "/retrieve_params", API.JobController, :retrieve_params
+    get "/start_job", API.JobController, :start_job
+    get "/retrieve_log", API.JobController, :retrieve_log
     resources "/jobs", API.JobController, only: [:index]
   end
 end

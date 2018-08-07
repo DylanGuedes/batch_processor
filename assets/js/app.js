@@ -21,4 +21,16 @@ import "./semantic.min.js";
 
 $(document).ready(function() {
   $('.menu .item').tab();
+  $('#search-logs').on('click', function() {
+    var uuid = (this).getAttribute('data');
+    $.ajax({
+      dataType: "json",
+      url: "/api/retrieve_log",
+      data: {"job_id": uuid},
+      success: function(data) {
+        $('.job-log').text(data);
+      }
+    });
+    $('.ui.modal').modal('show');
+  });
 });

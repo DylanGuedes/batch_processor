@@ -13,10 +13,36 @@
       <tr>
         <td><%= job_uuid %></td>
         <td>
-          <a href="#">Log</a>
+          <div class="ui icon buttons">
+            <%= if (job_state == :ready) do %>
+              <a href="<%= job_path(@conn, :start_job, [uuid: job_uuid]) %>" class="ui green button">
+                <i class="play icon"></i>
+              </a>
+            <% end %>
+
+            <%= if (job_state == :finished) do %>
+              <div class="ui modal">
+                <i class="close icon"></i>
+                <div class="header">
+                  Job <%= job_uuid %> Log
+                </div>
+                <div class="content">
+                  <p class="job-log">
+                  </p>
+                </div>
+              </div>
+
+              <a href="#" id="search-logs" data="<%= job_uuid %>" class="ui blue button">
+                <i class="book icon"></i>
+              </a>
+            <% end %>
+          </div>
         </td>
-        <td class="<%= row_state(job_state) %>">
-          <span href="#"><%= job_state %></span>
+        <td class="<%= row_state_color(job_state) %>">
+          <%= if (job_state == :running) do %>
+            <div class="ui active inline loader"></div>
+          <% end %>
+          <span><i class="<%= row_state_extra_icon(job_state) %>"></i><%= row_state_text(job_state) %></span>
         </td>
       </tr>
     <% end %>
