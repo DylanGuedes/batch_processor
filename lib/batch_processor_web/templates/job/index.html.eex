@@ -21,18 +21,18 @@
             <% end %>
 
             <%= if (job_state == :finished) do %>
-              <div class="ui modal">
+              <div class="ui modal" id="<%= job_uuid %>">
                 <i class="close icon"></i>
                 <div class="header">
-                  Job <%= job_uuid %> Log
+                  <h1 class="ui header">Job Log</h1>
+                  <h4 class="ui header"><%= job_uuid %></h4>
                 </div>
                 <div class="content">
-                  <p class="job-log">
-                  </p>
+                  <code class="job-log"></code>
                 </div>
               </div>
 
-              <a href="#" id="search-logs" data="<%= job_uuid %>" class="ui blue button">
+              <a href="#" data="<%= job_uuid %>" class="ui blue button search-logs">
                 <i class="book icon"></i>
               </a>
             <% end %>

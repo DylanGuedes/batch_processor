@@ -95,6 +95,15 @@ defmodule BatchProcessorWeb.JobParamsController do
     redirect(conn, to: job_params_path(conn, :show, job_params, [current_tab: "schema"]))
   end
 
+  def add_interscity_field(conn, %{"id" => id, "field" => field, "value" => value}) do
+    job_params = InterSCity.get_job_params!(id)
+    old_interscity_config = Map.get(job_params, :spark_params) |> Map.get("interscity")
+    new_interscity_config = Map.put(old_interscity_config, field, value)
+    new_spark_params = Map.get(job_params, :spark_params) |> Map.put("interscity", new_interscity_config)
+    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    redirect(conn, to: job_params_path(conn, :show, job_params, [current_tab: "interscity"]))
+  end
+
   def remove_schema_field(conn, %{"id" => id, "field" => field}) do
     job_params = InterSCity.get_job_params!(id)
     old_schema = Map.get(job_params, :spark_params) |> Map.get("schema")
@@ -106,6 +115,17 @@ defmodule BatchProcessorWeb.JobParamsController do
     |> redirect(to: job_params_path(conn, :show, job_params))
   end
 
+  def remove_interscity_field(conn, %{"id" => id, "field" => field}) do
+    job_params = InterSCity.get_job_params!(id)
+    old_interscity_config = Map.get(job_params, :spark_params) |> Map.get("interscity")
+    new_interscity_config = Map.delete(old_interscity_config, field)
+    new_spark_params = Map.get(job_params, :spark_params) |> Map.put("interscity", new_interscity_config)
+    changeset = InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    conn
+    |> put_flash(:error, "Field #{field} removed from InterSCity config.")
+    |> redirect(to: job_params_path(conn, :show, job_params))
+  end
+
   def schedule_spark_job(conn, %{"id" => id}) do
     job_params = InterSCity.get_job_params!(id)
     case apply(:"#{job_params.handler}", :handle, [job_params.spark_params]) do
@@ -114,7 +134,6 @@ defmodule BatchProcessorWeb.JobParamsController do
         |> put_flash(:error, reason)
         |> redirect(to: job_params_path(conn, :show, job_params))
       {:success, uuid} ->
-        IO.puts "UUID: #{uuid}"
         conn
         |> put_flash(:info, "Your job is successfully running with UUID #{uuid}")
         |> redirect(to: job_params_path(conn, :show, job_params))
