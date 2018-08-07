@@ -14,6 +14,10 @@
         <td><%= job_uuid %></td>
         <td>
           <div class="ui icon buttons">
+            <a href="<%= job_path(@conn, :fade_job, [uuid: job_uuid]) %>" class="ui yellow button">
+              <i class="minus icon"></i>
+            </a>
+
             <%= if (job_state == :ready) do %>
               <a href="<%= job_path(@conn, :start_job, [uuid: job_uuid]) %>" class="ui green button">
                 <i class="play icon"></i>

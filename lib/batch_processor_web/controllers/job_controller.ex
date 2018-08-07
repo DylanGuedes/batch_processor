@@ -22,4 +22,12 @@ defmodule BatchProcessorWeb.JobController do
     |> put_flash(:info, "Job successfully started!")
     |> redirect(to: job_path(conn, :index))
   end
+
+  def fade_job(conn, %{"uuid" => uuid}) do
+    JobManager.fade_job(uuid)
+
+    conn
+    |> put_flash(:error, "Job successfully erased!")
+    |> redirect(to: job_path(conn, :index))
+  end
 end

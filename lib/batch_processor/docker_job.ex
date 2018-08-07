@@ -28,8 +28,10 @@ defmodule BatchProcessor.DockerJob do
   alias BatchProcessor.JobManager
 
   @spec init(map) :: {:ok, map}
-  def init(initial_state),
-    do: {:ok, initial_state}
+  def init(initial_state) do
+    Process.flag(:trap_exit, true)
+    {:ok, initial_state}
+  end
 
   @spec start_link(map) :: {atom, pid}
   def start_link(opts) do
@@ -47,6 +49,12 @@ defmodule BatchProcessor.DockerJob do
   @spec retrieve_log(pid) :: map
   def retrieve_log(pid) do
     GenServer.call(pid, :retrieve_log)
+  end
+
+
+  @spec suicide(pid) :: {:ok | :error, String.t}
+  def suicide(pid) do
+    Process.exit(pid, :suicide)
   end
 
   @spec retrieve_params(pid) :: map
@@ -115,5 +123,14 @@ defmodule BatchProcessor.DockerJob do
     do: {:reply, state["state"], state}
   def handle_call(:retrieve_params, _from, state) do
     {:reply, state["spark_params"], state}
+  end
+
+  def terminate(reason, state) do
+    IO.puts("Job fading...")
+    state
+  end
+
+  def handle_info({:EXIT, _from, reason}, state) do
+    {:stop, reason, state}
   end
 end

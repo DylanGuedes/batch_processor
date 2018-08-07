@@ -1,3 +1,8 @@
-<h4 class="ui header">
-  Times run'd: <%= @job.scheduled_jobs %>
-</h4>
+<div class="ui horizontal statistic">
+  <div class="value">
+    <%= @job.scheduled_jobs %>
+  </div>
+  <div class="label">
+    Scheduled Jobs
+  </div>
+</div>

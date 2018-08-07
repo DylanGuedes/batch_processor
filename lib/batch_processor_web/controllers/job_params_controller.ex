@@ -152,10 +152,7 @@ defmodule BatchProcessorWeb.JobParamsController do
                        |> Map.get(:spark_params)
                        |> Map.put("publish_strategy", new_publish_strategy)
 
-    sch = InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
-    IO.puts "sch:"
-    IO.inspect sch
-    IO.puts "end sch"
+    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
     redirect(conn, to: job_params_path(conn, :show, job_params, [current_tab: "publish-strategy"]))
   end
 end

@@ -21,6 +21,15 @@ defmodule BatchProcessor.JobManager do
     uuid
   end
 
+  def fade_job(uuid) do
+    case Agent.get(__MODULE__, fn state -> Map.get(state, uuid) end) do
+      nil -> {:error, "Job not present!"}
+      job -> 
+        DockerJob.suicide(job)
+        Agent.update(__MODULE__, fn state -> Map.delete(state, uuid) end)
+    end
+  end
+
   @spec retrieve_job_params(String.t) :: map
   def retrieve_job_params(uuid) do
     case Agent.get(__MODULE__, fn state -> Map.get(state, uuid) end) do
