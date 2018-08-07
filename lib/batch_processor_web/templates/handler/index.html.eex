@@ -1,0 +1,5 @@
+<h1 class="ui header">Available Handlers</h1>
+
+<%= for handler <- @handlers do %>
+  <%= render "handler.html", [conn: @conn, handler: handler] %>
+<% end %>

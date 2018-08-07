@@ -21,6 +21,17 @@ import "./semantic.min.js";
 
 $(document).ready(function() {
   $('.menu .item').tab();
+
+  $('.trigger-required-params').on('click', function() {
+    var handlerSlug = (this).getAttribute('handler-slug');
+    $('.ui.modal#required-params-'+handlerSlug).modal('show');
+  });
+
+  $('.trigger-optional-params').on('click', function() {
+    var handlerSlug = (this).getAttribute('handler-slug');
+    $('.ui.modal#optional-params-'+handlerSlug).modal('show');
+  });
+
   $('.search-logs').on('click', function() {
     var uuid = (this).getAttribute('data');
     $.ajax({

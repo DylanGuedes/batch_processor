@@ -1,0 +1,58 @@
+<div class="ui centered card">
+  <div class="content">
+    <div class="center aligned header"><%= @handler.title %></div>
+    <div class="center aligned description">
+      <%= @handler.description %>
+    </div>
+  </div>
+
+  <div class="extra content">
+    <a class="ui left floated trigger-required-params" handler-slug="<%= @handler.slug_title %>">
+      <i class="red hand point up outline icon left floated"></i>
+    </a>
+
+    <a class="trigger-optional-params" handler-slug="<%= @handler.slug_title %>">
+      <i class="blue check square outline icon right floated"></i>
+    </a>
+  </div>
+
+  <div class="ui modal" id="optional-params-<%= @handler.slug_title %>">
+    <i class="close icon"></i>
+    <div class="header">
+      <%= @handler.title %> Optional Params
+    </div>
+
+    <div class="content">
+      <div class="ui items">
+        <%= for {k, v} <- @handler.optional_params do %>
+          <div class="item">
+            <div class="content">
+              <span class="header"><%= k %></span>
+              <div class="meta"><%= v %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui modal" id="required-params-<%= @handler.slug_title %>">
+    <i class="close icon"></i>
+    <div class="header">
+      <%= @handler.title %> Required Params
+    </div>
+
+    <div class="content">
+      <div class="ui items">
+        <%= for {k, v} <- @handler.required_params do %>
+          <div class="item">
+            <div class="content">
+              <span class="header"><%= k %></span>
+              <div class="meta"><%= v %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

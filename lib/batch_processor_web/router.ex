@@ -21,6 +21,7 @@ defmodule BatchProcessorWeb.Router do
     get "/fade_job", JobController, :fade_job
     resources "/job_params", JobParamsController, only: [:index, :show, :new, :create, :edit]
     resources "/jobs", JobController, only: [:index]
+    resources "/handlers", HandlerController, only: [:index]
     post "/add_schema_field", JobParamsController, :add_schema_field
     post "/add_interscity_field", JobParamsController, :add_interscity_field
     post "/add_functional_field", JobParamsController, :add_functional_field
