@@ -56,7 +56,11 @@ defmodule BatchProcessor.DockerJob do
 
   @spec status(pid) :: map
   def status(pid) do
-    GenServer.call(pid, :retrieve_state)
+    try do
+      GenServer.call(pid, :retrieve_state)
+    rescue
+      RuntimeError -> IO.puts "RUNTIME ERROR!!!"
+    end
   end
 
   @spec run(pid) :: atom

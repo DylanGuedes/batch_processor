@@ -10,19 +10,20 @@ defmodule BatchProcessor.InterSCity.JobParams do
       functional_params: %{},
       interscity: %{}}
     field :handler, :string
+    field :scheduled_jobs, :integer
 
     timestamps()
   end
 
-  def create_changeset(job_params, attrs) do
+  def changeset(job_params, attrs) do
     job_params
-    |> cast(attrs, [:spark_params, :name, :handler])
+    |> cast(attrs, [:spark_params, :name, :handler, :scheduled_jobs])
     |> validate_required([:name, :handler, :spark_params])
   end
 
   def update_changeset(job_params, attrs) do
     job_params
-    |> cast(attrs, [:name, :spark_params, :handler])
+    |> cast(attrs, [:name, :spark_params, :handler, :scheduled_jobs])
     |> validate_required([:name, :handler])
     |> validate_blank_schema_field()
   end
@@ -33,7 +34,7 @@ defmodule BatchProcessor.InterSCity.JobParams do
       publish_strategy: %{name: "file", format: "csv"},
       functional_params: %{},
       interscity: %{}}
-    create_changeset(changeset, %{spark_params: spark_params})
+    changeset(changeset, %{spark_params: spark_params})
   end
   def _validate_blank_schema_field({:ok, spark_params}, changeset) do
     spark_schema = Map.get(spark_params, "schema")

@@ -57,7 +57,7 @@ defmodule BatchProcessor.InterSCity do
       interscity: %{}})
 
     %JobParams{}
-    |> JobParams.create_changeset(attrs)
+    |> JobParams.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -75,7 +75,7 @@ defmodule BatchProcessor.InterSCity do
   """
   def update_job_params(%JobParams{} = job_params, attrs) do
     job_params
-    |> JobParams.update_changeset(attrs)
+    |> JobParams.changeset(attrs)
     |> Repo.update()
   end
 
@@ -105,6 +105,15 @@ defmodule BatchProcessor.InterSCity do
 
   """
   def change_job_params(%JobParams{} = job_params) do
-    JobParams.create_changeset(job_params, %{})
+    JobParams.changeset(job_params, %{})
+  end
+
+  def increase_scheduled_jobs(job_params) do
+    changeset = change_job_params(job_params)
+    IO.puts "changeset before"
+    IO.inspect changeset
+    IO.puts "changeset after"
+    scheduled_jobs = job_params.scheduled_jobs
+    update_job_params(job_params, %{scheduled_jobs: scheduled_jobs+1})
   end
 end

@@ -134,6 +134,7 @@ defmodule BatchProcessorWeb.JobParamsController do
         |> put_flash(:error, reason)
         |> redirect(to: job_params_path(conn, :show, job_params))
       {:success, uuid} ->
+        InterSCity.increase_scheduled_jobs(job_params)
         conn
         |> put_flash(:info, "Your job is successfully running with UUID #{uuid}")
         |> redirect(to: job_params_path(conn, :show, job_params))

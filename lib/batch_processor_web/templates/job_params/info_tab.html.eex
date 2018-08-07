@@ -1,1 +1,3 @@
-<p>Times run'd: 2405</p>
+<h4 class="ui header">
+  Times run'd: <%= @job.scheduled_jobs %>
+</h4>

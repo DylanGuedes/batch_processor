@@ -35,7 +35,7 @@ def extract_publish_strategy(opts):
 
 def fields_name(capability, opts):
     fields = []
-    opts_sch = opts[capability+"_schema"]
+    opts_sch = opts["schema"]
     for name, typ in opts_sch.items():
         fields.append(name)
     return fields
@@ -44,7 +44,7 @@ def fields_name(capability, opts):
 def mount_schema(capability, opts):
     # Given the selected schema params as hash, mount a known
     # Spark schema
-    opts_sch = opts[capability+"_schema"]
+    opts_sch = opts["schema"]
     fields = []
 
     for name, typ in opts_sch.items():
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     params = retrieve_params(my_uuid)
 
     publish_strategy = extract_publish_strategy(params["publish_strategy"])
-    capability_to_analyze = params["capability"]
+    capability_to_analyze = params["interscity"]["capability"]
     sch = mount_schema(capability_to_analyze, params)
 
     spark = SparkSession.builder.getOrCreate()

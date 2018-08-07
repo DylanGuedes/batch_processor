@@ -27,7 +27,7 @@
                   <h1 class="ui header">Job Log</h1>
                   <h4 class="ui header"><%= job_uuid %></h4>
                 </div>
-                <div class="content">
+                <div class="scrolling content">
                   <code class="job-log"></code>
                 </div>
               </div>
