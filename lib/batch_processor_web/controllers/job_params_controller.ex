@@ -104,6 +104,15 @@ defmodule BatchProcessorWeb.JobParamsController do
     redirect(conn, to: job_params_path(conn, :show, job_params, [current_tab: "interscity"]))
   end
 
+  def add_functional_field(conn, %{"id" => id, "field" => field, "value" => value}) do
+    job_params = InterSCity.get_job_params!(id)
+    old_functional_params = Map.get(job_params, :spark_params) |> Map.get("functional_params")
+    new_functional_params = Map.put(old_functional_params, field, value)
+    new_spark_params = Map.get(job_params, :spark_params) |> Map.put("functional_params", new_functional_params)
+    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    redirect(conn, to: job_params_path(conn, :show, job_params, [current_tab: "functional"]))
+  end
+
   def remove_schema_field(conn, %{"id" => id, "field" => field}) do
     job_params = InterSCity.get_job_params!(id)
     old_schema = Map.get(job_params, :spark_params) |> Map.get("schema")

@@ -106,10 +106,12 @@ if __name__ == '__main__':
                 explode(col("capabilities.{0}".format(capability_to_analyze))).alias(capability_to_analyze))
             .select(exploded_fields))
 
-    assembler = VectorAssembler(inputCols=params["features"], outputCol="features")
+    features = list(map(lambda a: a.strip(), params["functional_params"]["features"].split(",")))
+
+    assembler = VectorAssembler(inputCols=features, outputCol="features")
     assembled_df = assembler.transform(df)
     lr = (LinearRegression(maxIter=10)
-            .setLabelCol(params["label_col"])
+            .setLabelCol(params["functional_params"]["label_col"])
             .setFeaturesCol("features"))
     model = lr.fit(assembled_df)
     save_model(model, publish_strategy)

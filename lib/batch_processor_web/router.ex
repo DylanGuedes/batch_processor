@@ -23,6 +23,7 @@ defmodule BatchProcessorWeb.Router do
     resources "/jobs", JobController, only: [:index]
     post "/add_schema_field", JobParamsController, :add_schema_field
     post "/add_interscity_field", JobParamsController, :add_interscity_field
+    post "/add_functional_field", JobParamsController, :add_functional_field
     post "/update_publish_strategy", JobParamsController, :update_publish_strategy
     get "/remove_schema_field", JobParamsController, :remove_schema_field
     get "/remove_interscity_field", JobParamsController, :remove_interscity_field

@@ -29,7 +29,6 @@ defmodule BatchProcessor.DockerJob do
 
   @spec init(map) :: {:ok, map}
   def init(initial_state) do
-    Process.flag(:trap_exit, true)
     {:ok, initial_state}
   end
 
@@ -54,20 +53,24 @@ defmodule BatchProcessor.DockerJob do
 
   @spec suicide(pid) :: {:ok | :error, String.t}
   def suicide(pid) do
+    IO.puts "suicide!!"
     Process.exit(pid, :suicide)
   end
 
   @spec retrieve_params(pid) :: map
   def retrieve_params(pid) do
-    GenServer.call(pid, :retrieve_params)
+    try do
+      GenServer.call(pid, :retrieve_params)
+    rescue
+      RuntimeError -> IO.puts "RUNTIME ERROR!!!"
+    end
   end
 
   @spec status(pid) :: map
   def status(pid) do
-    try do
-      GenServer.call(pid, :retrieve_state)
-    rescue
-      RuntimeError -> IO.puts "RUNTIME ERROR!!!"
+    case Process.info(pid) do
+      nil -> :error
+      _ -> GenServer.call(pid, :retrieve_state)
     end
   end
 
@@ -125,12 +128,23 @@ defmodule BatchProcessor.DockerJob do
     {:reply, state["spark_params"], state}
   end
 
+  def terminate(:normal, state),
+    do: state
   def terminate(reason, state) do
+    IO.puts "reason:"
+    IO.inspect reason
+    IO.puts "state:"
+    IO.inspect state
     IO.puts("Job fading...")
     state
   end
 
   def handle_info({:EXIT, _from, reason}, state) do
+    IO.puts "exit..."
+    IO.puts "reason:"
+    IO.inspect reason
+    IO.puts "end reason:"
+    IO.inspect state
     {:stop, reason, state}
   end
 end
