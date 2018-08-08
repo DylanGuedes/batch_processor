@@ -15,6 +15,7 @@ defmodule BatchProcessorWeb.API.JobController do
         conn
         |> put_status(:created)
         |> json(%{"job_id" => job_id})
+
       {:error, reason} ->
         conn
         |> put_status(:bad_request)
@@ -23,8 +24,8 @@ defmodule BatchProcessorWeb.API.JobController do
   end
 
   def start_job(conn, %{"job_id" => job_id}) do
-    pid = job_id |> JobManager.job_pid
-    
+    pid = job_id |> JobManager.job_pid()
+
     spawn(fn -> DockerJob.run(pid) end)
 
     conn
@@ -49,7 +50,7 @@ defmodule BatchProcessorWeb.API.JobController do
   end
 
   def index(conn, _params) do
-    jobs = JobManager.registered_jobs
+    jobs = JobManager.registered_jobs()
 
     conn
     |> put_status(:ok)

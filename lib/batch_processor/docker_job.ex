@@ -75,7 +75,8 @@ defmodule BatchProcessor.DockerJob do
   def handle_cast(:run, state) do
     docker_arguments = [
       "exec",
-      "master", # container name
+      # container name
+      "master",
       "spark-submit",
       "/jobs/#{state["spark_job_name"]}.py",
       state["uuid"]
@@ -84,29 +85,36 @@ defmodule BatchProcessor.DockerJob do
     state = Map.put(state, "state", :running)
     pid = self()
 
-    spawn fn ->
+    spawn(fn ->
       {log, status} = System.cmd("docker", docker_arguments, stderr_to_stdout: true)
+
       case status do
         0 -> GenServer.cast(pid, {:finished, log, status})
         _ -> GenServer.cast(pid, {:error, log, status})
       end
+
       GenServer.cast(pid, {:finished, log, status})
-    end
-    {:noreply, state}
-  end
-  def handle_cast({:finished, log, status}, state) do
-    state = state
-    |> Map.put("state", :finished)
-    |> Map.put("log", log)
-    |> Map.put("final_status", status)
+    end)
 
     {:noreply, state}
   end
+
+  def handle_cast({:finished, log, status}, state) do
+    state =
+      state
+      |> Map.put("state", :finished)
+      |> Map.put("log", log)
+      |> Map.put("final_status", status)
+
+    {:noreply, state}
+  end
+
   def handle_cast({:error, log, status}, state) do
-    state = state
-    |> Map.put("state", :error)
-    |> Map.put("log", log)
-    |> Map.put("final_status", status)
+    state =
+      state
+      |> Map.put("state", :error)
+      |> Map.put("log", log)
+      |> Map.put("final_status", status)
 
     {:noreply, state}
   end
@@ -114,19 +122,22 @@ defmodule BatchProcessor.DockerJob do
   @spec handle_call(atom, any, map) :: {:reply, any, map}
   def handle_call(:retrieve_log, _from, state),
     do: {:reply, state["log"], state}
+
   def handle_call(:retrieve_state, _from, state),
     do: {:reply, state["state"], state}
+
   def handle_call(:retrieve_params, _from, state) do
     {:reply, state["spark_params"], state}
   end
 
   def terminate(:normal, state),
     do: state
+
   def terminate(reason, state) do
     state
   end
 
-  @spec handle_info(tuple, map) :: {:stop, String.t, map}
+  @spec handle_info(tuple, map) :: {:stop, String.t(), map}
   def handle_info({:EXIT, _from, reason}, state) do
     {:stop, reason, state}
   end

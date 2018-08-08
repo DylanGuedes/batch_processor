@@ -3,14 +3,19 @@ defmodule BatchProcessor.InterSCity.JobParams do
   import Ecto.Changeset
 
   schema "job_params" do
-    field :name, :string
-    field :spark_params, :map, default: %{
-      schema: %{},
-      publish_strategy: %{name: "file", format: "csv"},
-      functional_params: %{},
-      interscity: %{}}
-    field :handler, :string
-    field :scheduled_jobs, :integer, default: 0
+    field(:name, :string)
+
+    field(:spark_params, :map,
+      default: %{
+        schema: %{},
+        publish_strategy: %{name: "file", format: "csv"},
+        functional_params: %{},
+        interscity: %{}
+      }
+    )
+
+    field(:handler, :string)
+    field(:scheduled_jobs, :integer, default: 0)
 
     timestamps()
   end
@@ -33,11 +38,15 @@ defmodule BatchProcessor.InterSCity.JobParams do
       schema: %{},
       publish_strategy: %{name: "file", format: "csv"},
       functional_params: %{},
-      interscity: %{}}
+      interscity: %{}
+    }
+
     changeset(changeset, %{spark_params: spark_params})
   end
+
   def _validate_blank_schema_field({:ok, spark_params}, changeset) do
     spark_schema = Map.get(spark_params, :schema)
+
     case Map.has_key?(spark_schema, "") do
       true -> add_error(changeset, :spark_params, "Empty field in schema")
       false -> changeset

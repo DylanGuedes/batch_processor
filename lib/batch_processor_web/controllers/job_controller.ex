@@ -6,15 +6,15 @@ defmodule BatchProcessorWeb.JobController do
   alias BatchProcessor.DockerJob
 
   def index(conn, _params) do
-    jobs = JobManager.jobs_list_with_detail
+    jobs = JobManager.jobs_list_with_detail()
 
     conn
     |> render("index.html", jobs: jobs)
   end
 
   def start_job(conn, %{"uuid" => uuid}) do
-    pid = uuid |> JobManager.job_pid
-    
+    pid = uuid |> JobManager.job_pid()
+
     spawn(fn -> DockerJob.run(pid) end)
 
     conn

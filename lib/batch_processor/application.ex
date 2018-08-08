@@ -2,7 +2,7 @@ defmodule BatchProcessor.Application do
   use Application
 
   @dialyzer [
-    {:nowarn_function, 'start': 2}
+    {:nowarn_function, start: 2}
   ]
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -15,10 +15,11 @@ defmodule BatchProcessor.Application do
       supervisor(BatchProcessorWeb.Endpoint, [])
     ]
 
-    children = case Mix.env do
-      :test -> children
-      _ -> children ++ [{BatchProcessor.JobManager, []}]
-    end
+    children =
+      case Mix.env() do
+        :test -> children
+        _ -> children ++ [{BatchProcessor.JobManager, []}]
+      end
 
     # Define workers and child supervisors to be supervised
 
