@@ -1,0 +1,13 @@
+{
+  "skip_files": [
+    "lib/batch_processor/application.ex",
+    "test",
+    "lib/batch_processor.ex",
+    "lib/batch_processor/repo.ex",
+    "lib/batch_processor_web/router.ex",
+    "lib/batch_processor_web/gettext.ex",
+    "lib/batch_processor_web/endpoint.ex",
+    "lib/batch_processor_web.ex",
+    "lib/batch_processor_web/channels/user_socket.ex"
+  ]
+}

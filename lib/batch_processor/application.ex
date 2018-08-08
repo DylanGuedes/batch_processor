@@ -1,6 +1,10 @@
 defmodule BatchProcessor.Application do
   use Application
 
+  @dialyzer [
+    {:nowarn_function, 'start': 2}
+  ]
+
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do

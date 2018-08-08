@@ -42,7 +42,7 @@ defmodule BatchProcessor.JobManager do
   def registered_jobs,
     do: Agent.get(__MODULE__, fn state -> Map.keys(state) end)
 
-  @spec registered_jobs() :: list()
+  @spec jobs_list_with_detail() :: list()
   def jobs_list_with_detail do
     Agent.get(__MODULE__, fn state -> Map.keys(state) end)
     |> Enum.map(fn x -> {x, job_pid(x)} end)

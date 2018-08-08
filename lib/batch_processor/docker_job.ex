@@ -25,8 +25,6 @@ defmodule BatchProcessor.DockerJob do
 
   use GenServer
 
-  alias BatchProcessor.JobManager
-
   @spec init(map) :: {:ok, map}
   def init(initial_state) do
     {:ok, initial_state}
@@ -50,8 +48,7 @@ defmodule BatchProcessor.DockerJob do
     GenServer.call(pid, :retrieve_log)
   end
 
-
-  @spec suicide(pid) :: {:ok | :error, String.t}
+  @spec suicide(pid) :: true
   def suicide(pid) do
     Process.exit(pid, :suicide)
   end
@@ -61,7 +58,7 @@ defmodule BatchProcessor.DockerJob do
     GenServer.call(pid, :retrieve_params)
   end
 
-  @spec status(pid) :: map
+  @spec status(pid) :: atom
   def status(pid) do
     case Process.info(pid) do
       nil -> :error
@@ -129,6 +126,7 @@ defmodule BatchProcessor.DockerJob do
     state
   end
 
+  @spec handle_info(tuple, map) :: {:stop, String.t, map}
   def handle_info({:EXIT, _from, reason}, state) do
     {:stop, reason, state}
   end
