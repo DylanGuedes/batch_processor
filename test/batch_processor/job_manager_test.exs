@@ -1,7 +1,6 @@
 defmodule BatchProcessor.JobManagerTest do
   use ExUnit.Case
 
-  alias BatchProcessor.DockerJob
   alias BatchProcessor.JobManager
 
   setup do

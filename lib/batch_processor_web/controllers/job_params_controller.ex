@@ -52,17 +52,7 @@ defmodule BatchProcessorWeb.JobParamsController do
   end
 
   def show(conn, %{"id" => id}) do
-    job_params = InterSCity.get_job_params!(id)
-    spark_params = Map.get(job_params, :spark_params)
-
-    params =
-      %{}
-      |> Map.put("id", id)
-      |> Map.put("current_tab", "info")
-      |> Map.put("spark_params", spark_params)
-      |> Map.put("job_params", job_params)
-
-    _show(conn, params)
+    show(conn, %{"id" => id, "current_tab" => "info"})
   end
 
   def _show(conn, params) do
@@ -140,7 +130,7 @@ defmodule BatchProcessorWeb.JobParamsController do
     new_schema = Map.delete(old_schema, field)
     new_spark_params = Map.get(job_params, :spark_params) |> Map.put("schema", new_schema)
 
-    changeset =
+    _changeset =
       InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
 
     conn
@@ -156,7 +146,7 @@ defmodule BatchProcessorWeb.JobParamsController do
     new_spark_params =
       Map.get(job_params, :spark_params) |> Map.put("interscity", new_interscity_config)
 
-    changeset =
+    _changeset =
       InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
 
     conn

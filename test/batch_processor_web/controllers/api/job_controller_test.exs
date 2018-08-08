@@ -17,7 +17,7 @@ defmodule BatchProcessorWeb.API.JobControllerTest do
         "kmh" => "double",
       },
       "publish_strategy" => %{
-        "name": "test"
+        name: "test"
       },
       "job" => "linear_regression"
     }
@@ -28,16 +28,13 @@ defmodule BatchProcessorWeb.API.JobControllerTest do
 
   test "run job missing params", %{conn: conn} do
     params = %{
-      "publish_strategy" => %{"name": "test"},
-      "job" => "linear_regression"
+      :publish_strategy => %{name: "test"},
+      :job => "linear_regression"
     }
 
     conn = post(conn, job_path(conn, :register_job, params))
     assert json_response(conn, 400) == %{
       "reason" => "Missing param(s) interscity, schema"
     }
-  end
-
-  test "retrieve params", %{conn: conn} do
   end
 end

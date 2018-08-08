@@ -3,24 +3,21 @@ defmodule BatchProcessor.DockerJob do
   * Module that represents interaction with Spark Docker jobs.
 
   ## Usage
-
-      iex> opts = %{
-        "uuid" => "abcde",
-        "params" => %{},
-        "spark_job_name" => "linear_regression"
-      }
-      ...
-
-      iex> {:ok, pid} = DockerJob.start_link(opts)
-      {:ok, #PID<0.9999.0>}
-      iex> DockerJob.status(pid)
-      :ready
-      iex> DockerJob.run(pid)
-      :ok
-      iex> DockerJob.status(pid)
-      :finished
-      iex> DockerJob.retrieve_log(pid)
-      "Such a great container log, huh?"
+  iex> alias BatchProcessor.DockerJob
+  iex> opts = %{"uuid" => "abcde",
+  ...> "spark_job_name" => "linear_regression",
+  ...> "params" => %{"schema" => %{}}}
+  iex> {:ok, pid} = DockerJob.start_link(opts)
+  iex> DockerJob.status(pid)
+  :ready
+  iex> DockerJob.run(pid)
+  :ok
+  iex> DockerJob.status(pid)
+  :running
+  iex> DockerJob.retrieve_params(pid)
+  %{
+    "schema" => %{}
+  }
   """
 
   use GenServer
@@ -133,7 +130,7 @@ defmodule BatchProcessor.DockerJob do
   def terminate(:normal, state),
     do: state
 
-  def terminate(reason, state) do
+  def terminate(_reason, state) do
     state
   end
 

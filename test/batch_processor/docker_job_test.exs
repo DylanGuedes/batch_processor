@@ -1,8 +1,8 @@
 defmodule BatchProcessor.DockerJobTest do
   use ExUnit.Case
+  doctest BatchProcessor.DockerJob
 
   alias BatchProcessor.DockerJob
-  alias BatchProcessor.JobManager
 
   setup do
     :ok
