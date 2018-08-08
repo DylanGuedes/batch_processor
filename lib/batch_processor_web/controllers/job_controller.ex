@@ -7,7 +7,6 @@ defmodule BatchProcessorWeb.JobController do
 
   def index(conn, _params) do
     jobs = JobManager.jobs_list_with_detail
-    IO.inspect jobs
 
     conn
     |> render("index.html", jobs: jobs)

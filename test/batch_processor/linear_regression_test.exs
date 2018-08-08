@@ -8,12 +8,18 @@ defmodule BatchProcessor.LinearRegressionTest do
   setup do
     _pid = start_supervised!(JobManager)
     opts = %{
-      "capability" => "house_pricing",
-      "publish_strategy" => "console",
-      "house_pricing_schema" => %{
-        "something" => "integer"
+      "publish_strategy" => %{
+        "name" => "console"
       },
-      "params" => "fullll"
+      "functional_params" => %{
+        "test_split" => "0.2"
+      },
+      "schema" => %{
+        "zip" => "integer"
+      },
+      "interscity" => %{
+        "capability" => "house_pricing"
+      }
     }
     %{opts: opts}
   end

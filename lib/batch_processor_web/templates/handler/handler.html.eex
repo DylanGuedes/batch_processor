@@ -7,12 +7,12 @@
   </div>
 
   <div class="extra content">
-    <a class="ui left floated trigger-required-params" handler-slug="<%= @handler.slug_title %>">
-      <i class="red hand point up outline icon left floated"></i>
+    <a class="trigger-required-params" handler-slug="<%= @handler.slug_title %>">
+      <i data-title="Required params" data-content="This handler needs <%= length(@handler.required_params) %> required params." class="has-popup red hand point up outline icon left floated"></i>
     </a>
 
     <a class="trigger-optional-params" handler-slug="<%= @handler.slug_title %>">
-      <i class="blue check square outline icon right floated"></i>
+      <i data-title="Optional params" data-content="This handler has <%= length(@handler.optional_params) %> optional params." class="has-popup blue check square outline icon right floated"></i>
     </a>
   </div>
 

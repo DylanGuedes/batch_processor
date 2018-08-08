@@ -32,6 +32,8 @@ $(document).ready(function() {
     $('.ui.modal#optional-params-'+handlerSlug).modal('show');
   });
 
+  $('.has-popup').popup({});
+
   $('.search-logs').on('click', function() {
     var uuid = (this).getAttribute('data');
     $.ajax({
@@ -39,7 +41,6 @@ $(document).ready(function() {
       url: "/api/retrieve_log",
       data: {"job_id": uuid},
       success: function(data) {
-        console.log("data =>", data)
         $('.job-log').text(data);
       }
     });

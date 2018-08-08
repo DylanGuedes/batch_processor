@@ -10,7 +10,7 @@ defmodule BatchProcessor.InterSCity.JobParams do
       functional_params: %{},
       interscity: %{}}
     field :handler, :string
-    field :scheduled_jobs, :integer
+    field :scheduled_jobs, :integer, default: 0
 
     timestamps()
   end
@@ -37,7 +37,7 @@ defmodule BatchProcessor.InterSCity.JobParams do
     changeset(changeset, %{spark_params: spark_params})
   end
   def _validate_blank_schema_field({:ok, spark_params}, changeset) do
-    spark_schema = Map.get(spark_params, "schema")
+    spark_schema = Map.get(spark_params, :schema)
     case Map.has_key?(spark_schema, "") do
       true -> add_error(changeset, :spark_params, "Empty field in schema")
       false -> changeset

@@ -6,9 +6,9 @@ defmodule BatchProcessor.InterSCityTest do
   describe "job_params" do
     alias BatchProcessor.InterSCity.JobParams
 
-    @valid_attrs %{name: "some name"}
-    @update_attrs %{name: "some updated name"}
-    @invalid_attrs %{name: nil}
+    @valid_attrs %{"name" => "some name", "handler" => "#{BatchJob.LinearRegressionHandler}"}
+    @update_attrs %{"name" => "some updated name"}
+    @invalid_attrs %{"name" => nil}
 
     def job_params_fixture(attrs \\ %{}) do
       {:ok, job_params} =

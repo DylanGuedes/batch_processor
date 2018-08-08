@@ -50,11 +50,14 @@ defmodule BatchProcessor.InterSCity do
 
   """
   def create_job_params(attrs \\ %{}) do
-    attrs = Map.put(attrs, "spark_params", %{
-      schema: %{},
-      publish_strategy: %{name: "file", format: "csv"},
-      functional_params: %{},
-      interscity: %{}})
+    initial_spark_params = %{
+      "schema" => %{},
+      "publish_strategy" => %{"name" => "file", "format" => "csv"},
+      "functional_params" => %{},
+      "interscity" => %{}}
+
+    attrs = attrs
+            |> Map.put("spark_params", initial_spark_params)
 
     %JobParams{}
     |> JobParams.changeset(attrs)
@@ -110,9 +113,6 @@ defmodule BatchProcessor.InterSCity do
 
   def increase_scheduled_jobs(job_params) do
     changeset = change_job_params(job_params)
-    IO.puts "changeset before"
-    IO.inspect changeset
-    IO.puts "changeset after"
     scheduled_jobs = job_params.scheduled_jobs
     update_job_params(job_params, %{scheduled_jobs: scheduled_jobs+1})
   end
