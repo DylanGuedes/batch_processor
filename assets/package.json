@@ -6,6 +6,7 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
+    "ansi_up": "^3.0.0",
     "growl": "^1.10.5",
     "jquery": "^3.3.1",
     "phoenix": "file:../deps/phoenix",

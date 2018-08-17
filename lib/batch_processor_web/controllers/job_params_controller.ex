@@ -4,7 +4,9 @@ defmodule BatchProcessorWeb.JobParamsController do
   alias BatchProcessor.InterSCity
   alias BatchProcessor.InterSCity.JobParams
 
-  @handlers [BatchProcessor.LinearRegressionHandler]
+  @handlers [
+    BatchProcessor.StatisticalDescribeHandler,
+    BatchProcessor.LinearRegressionHandler]
 
   def index(conn, _params),
     do: render(conn, "index.html", job_params: InterSCity.list_job_params())

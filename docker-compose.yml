@@ -34,7 +34,7 @@ services:
       MASTER: spark://master:7077
       SPARK_CONF_DIR: /conf
       SPARK_PUBLIC_DNS: localhost
-      SPARK_DRIVER_PYTHON: "ipython"
+      PYSPARK_DRIVER_PYTHON: "ipython"
     expose:
       - 7001
       - 7002

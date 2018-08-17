@@ -22,6 +22,7 @@ defmodule BatchProcessor.JobManager do
     uuid
   end
 
+  @spec fade_job(String.t()) :: {atom, String.t()}
   def fade_job(uuid) do
     case Agent.get(__MODULE__, fn state -> Map.get(state, uuid) end) do
       nil ->

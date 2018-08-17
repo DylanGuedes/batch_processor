@@ -41,7 +41,12 @@ $(document).ready(function() {
       url: "/api/retrieve_log",
       data: {"job_id": uuid},
       success: function(data) {
-        $('.job-log').text(data);
+        var AU = require('ansi_up');
+        var ansi_up = new AU.default;
+        var html = ansi_up.ansi_to_html(data);
+        var d = document.createElement('div');
+        d.innerHTML = html;
+        $('.job-log').replaceWith(html);
       }
     });
     $('.ui.modal#'+uuid).modal('show');

@@ -45,7 +45,7 @@ defmodule BatchProcessor.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:dialyxir, "~> 1.0.0-rc.3", only: :dev},
+      {:dialyxir, "~> 1.0.0-rc.3", only: :dev, runtime: false},
       {:excoveralls, "~> 0.8", only: :test}
     ]
   end

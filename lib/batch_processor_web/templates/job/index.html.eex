@@ -25,7 +25,7 @@
             <% end %>
 
             <%= if (job_state == :finished) do %>
-              <div class="ui modal" id="<%= job_uuid %>">
+              <div class="ui fullscreen modal" id="<%= job_uuid %>">
                 <i class="close icon"></i>
                 <div class="header">
                   <h1 class="ui header">Job Log</h1>
