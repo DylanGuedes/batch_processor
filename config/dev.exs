@@ -56,3 +56,5 @@ config :batch_processor, BatchProcessor.Repo,
   database: "batch_processor_dev",
   hostname: "db",
   pool_size: 10
+
+config :batch_processor, :environment, :dev

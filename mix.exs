@@ -5,10 +5,9 @@ defmodule BatchProcessor.Mixfile do
     [
       app: :batch_processor,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.7.0",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps(),
       dialyzer: [ignore_warnings: "dialyzer.ignore-warnings.exs"],
@@ -46,7 +45,7 @@ defmodule BatchProcessor.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.3", only: :dev},
       {:excoveralls, "~> 0.8", only: :test}
     ]
   end

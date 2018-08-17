@@ -16,7 +16,7 @@ defmodule BatchProcessor.Application do
     ]
 
     children =
-      case Mix.env() do
+      case Application.get_env(:batch_processor, :environment) do
         :test -> children
         _ -> children ++ [{BatchProcessor.JobManager, []}]
       end

@@ -17,3 +17,5 @@ config :batch_processor, BatchProcessor.Repo,
   database: "batch_processor_test",
   hostname: System.get_env("TEST_DB"),
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :batch_processor, :environment, :test
