@@ -118,4 +118,24 @@ defmodule BatchProcessor.InterSCity do
     scheduled_jobs = job_params.scheduled_jobs
     update_job_params(job_params, %{scheduled_jobs: scheduled_jobs + 1})
   end
+
+  def alter_spark_param(job_params, command, table, key, value) do
+    old_map = 
+      job_params
+      |> Map.get(:spark_params)
+      |> Map.fetch!("#{table}")
+
+    new_map =
+      case command do
+        :update -> Map.put(old_map, key, value)
+        :remove -> Map.delete(old_map, key)
+      end
+
+    new_spark_params =
+      job_params
+      |> Map.get(:spark_params)
+      |> Map.put(table, new_map)
+
+    update_job_params(job_params, %{spark_params: new_spark_params})
+  end
 end

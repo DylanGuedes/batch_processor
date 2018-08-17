@@ -4,24 +4,13 @@ defmodule BatchProcessorWeb.JobParamsController do
   alias BatchProcessor.InterSCity
   alias BatchProcessor.InterSCity.JobParams
 
-  def index(conn, _params) do
-    job_params = InterSCity.list_job_params()
-    render(conn, "index.html", job_params: job_params)
-  end
-
   @handlers [BatchProcessor.LinearRegressionHandler]
 
-  def new(conn, _params) do
-    changeset =
-      InterSCity.change_job_params(%JobParams{
-        spark_params: %{
-          schema: %{},
-          publish_strategy: %{name: "file", format: "csv"},
-          functional_params: %{},
-          interscity: %{}
-        }
-      })
+  def index(conn, _params),
+    do: render(conn, "index.html", job_params: InterSCity.list_job_params())
 
+  def new(conn, _params) do
+    changeset = InterSCity.change_job_params(%JobParams{})
     render(conn, "new.html", %{handlers: @handlers, changeset: changeset})
   end
 
@@ -37,30 +26,12 @@ defmodule BatchProcessorWeb.JobParamsController do
     end
   end
 
-  def show(conn, %{"id" => id, "current_tab" => tab}) do
-    job_params = InterSCity.get_job_params!(id)
-    spark_params = Map.get(job_params, :spark_params)
-
-    params =
-      %{}
-      |> Map.put("id", id)
-      |> Map.put("current_tab", tab)
-      |> Map.put("spark_params", spark_params)
-      |> Map.put("job_params", job_params)
-
-    _show(conn, params)
-  end
-
-  def show(conn, %{"id" => id}) do
-    show(conn, %{"id" => id, "current_tab" => "info"})
-  end
-
-  def _show(conn, params) do
-    spark_params = Map.get(params, "spark_params")
-    job_params = Map.get(params, "job_params")
-    tab = Map.get(params, "current_tab")
-    render(conn, "show.html", spark_params: spark_params, job: job_params, current_tab: tab)
-  end
+  def _render_show(conn, job, tab \\ "info"),
+    do: render(conn, "show.html", [job: job, current_tab: tab])
+  def show(conn, %{"id" => id, "current_tab" => tab}),
+    do: _render_show(conn, InterSCity.get_job_params!(id), tab)
+  def show(conn, %{"id" => id}),
+    do: _render_show(conn, InterSCity.get_job_params!(id))
 
   def edit(conn, %{"id" => id}) do
     job_params = InterSCity.get_job_params!(id)
@@ -93,34 +64,19 @@ defmodule BatchProcessorWeb.JobParamsController do
 
   def add_schema_field(conn, %{"id" => id, "field" => field, "field_type" => field_type}) do
     job_params = InterSCity.get_job_params!(id)
-    old_schema = Map.get(job_params, :spark_params) |> Map.get("schema")
-    new_schema = Map.put(old_schema, field, field_type)
-    new_spark_params = Map.get(job_params, :spark_params) |> Map.put("schema", new_schema)
-    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    InterSCity.alter_spark_param(job_params, :update, :schema, field, field_type)
     redirect(conn, to: job_params_path(conn, :show, job_params, current_tab: "schema"))
   end
 
   def add_interscity_field(conn, %{"id" => id, "field" => field, "value" => value}) do
     job_params = InterSCity.get_job_params!(id)
-    old_interscity_config = Map.get(job_params, :spark_params) |> Map.get("interscity")
-    new_interscity_config = Map.put(old_interscity_config, field, value)
-
-    new_spark_params =
-      Map.get(job_params, :spark_params) |> Map.put("interscity", new_interscity_config)
-
-    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    InterSCity.alter_spark_param(job_params, :update, :interscity, field, value)
     redirect(conn, to: job_params_path(conn, :show, job_params, current_tab: "interscity"))
   end
 
   def add_functional_field(conn, %{"id" => id, "field" => field, "value" => value}) do
     job_params = InterSCity.get_job_params!(id)
-    old_functional_params = Map.get(job_params, :spark_params) |> Map.get("functional_params")
-    new_functional_params = Map.put(old_functional_params, field, value)
-
-    new_spark_params =
-      Map.get(job_params, :spark_params) |> Map.put("functional_params", new_functional_params)
-
-    InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
+    InterSCity.alter_spark_param(job_params, :update, :functional_params, field, value)
     redirect(conn, to: job_params_path(conn, :show, job_params, current_tab: "functional"))
   end
 
@@ -154,24 +110,6 @@ defmodule BatchProcessorWeb.JobParamsController do
     |> redirect(to: job_params_path(conn, :show, job_params))
   end
 
-  def schedule_spark_job(conn, %{"id" => id}) do
-    job_params = InterSCity.get_job_params!(id)
-
-    case apply(:"#{job_params.handler}", :handle, [job_params.spark_params]) do
-      {:error, reason} ->
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: job_params_path(conn, :show, job_params))
-
-      {:success, uuid} ->
-        InterSCity.increase_scheduled_jobs(job_params)
-
-        conn
-        |> put_flash(:info, "Your job is successfully running with UUID #{uuid}")
-        |> redirect(to: job_params_path(conn, :show, job_params))
-    end
-  end
-
   def update_publish_strategy(conn, %{"id" => id, "strategy" => strategy, "path" => path}) do
     job_params = InterSCity.get_job_params!(id)
     old_publish_strategy = Map.get(job_params, :spark_params) |> Map.get("publish_strategy")
@@ -188,5 +126,23 @@ defmodule BatchProcessorWeb.JobParamsController do
 
     InterSCity.update_job_params(%JobParams{} = job_params, %{spark_params: new_spark_params})
     redirect(conn, to: job_params_path(conn, :show, job_params, current_tab: "publish-strategy"))
+  end
+
+  def schedule_spark_job(conn, %{"id" => id}) do
+    job_params = InterSCity.get_job_params!(id)
+
+    case apply(:"#{job_params.handler}", :handle, [job_params.spark_params]) do
+      {:error, reason} ->
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: job_params_path(conn, :show, job_params))
+
+      {:success, uuid} ->
+        InterSCity.increase_scheduled_jobs(job_params)
+
+        conn
+        |> put_flash(:info, "Your job is successfully running with UUID #{uuid}")
+        |> redirect(to: job_params_path(conn, :show, job_params))
+    end
   end
 end
