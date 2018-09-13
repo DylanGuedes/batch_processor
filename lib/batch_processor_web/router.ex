@@ -37,9 +37,11 @@ defmodule BatchProcessorWeb.Router do
     pipe_through(:api)
 
     post("/register_job", API.JobController, :register_job)
+    post("/jobs/spawn_spark_job", API.JobController, :spawn_spark_job)
     get("/retrieve_params", API.JobController, :retrieve_params)
     get("/start_job", API.JobController, :start_job)
     get("/retrieve_log", API.JobController, :retrieve_log)
     resources("/jobs", API.JobController, only: [:index])
+    resources("/templates", API.TemplatesController, only: [:index])
   end
 end

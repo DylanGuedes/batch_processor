@@ -3,6 +3,8 @@ defmodule BatchProcessor.LinearRegressionHandler do
 
   @common_fields ["publish_strategy", "interscity", "schema"]
 
+  @behaviour BatchProcessor.SparkHandler
+
   def title() do
     "Linear Regression Handler"
   end
