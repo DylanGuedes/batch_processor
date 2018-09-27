@@ -1,4 +1,4 @@
-defmodule BatchProcessor.Application do
+defmodule DataProcessor.Application do
   use Application
 
   @dialyzer [
@@ -11,28 +11,28 @@ defmodule BatchProcessor.Application do
     import Supervisor.Spec
 
     children = [
-      supervisor(BatchProcessor.Repo, []),
-      supervisor(BatchProcessorWeb.Endpoint, [])
+      supervisor(DataProcessor.Repo, []),
+      supervisor(DataProcessorWeb.Endpoint, [])
     ]
 
     children =
-      case Application.get_env(:batch_processor, :environment) do
+      case Application.get_env(:data_processor, :environment) do
         :test -> children
-        _ -> children ++ [{BatchProcessor.JobManager, []}]
+        _ -> children ++ [{DataProcessor.JobManager, []}]
       end
 
     # Define workers and child supervisors to be supervised
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: BatchProcessor.Supervisor]
+    opts = [strategy: :one_for_one, name: DataProcessor.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    BatchProcessorWeb.Endpoint.config_change(changed, removed)
+    DataProcessorWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

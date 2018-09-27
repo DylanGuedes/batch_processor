@@ -3,7 +3,7 @@ from pyspark.sql.functions import explode, col
 import requests
 
 
-DEFAULT_BATCH_PROCESSOR_URL = "http://batch-processor:4545"
+DEFAULT_DATA_PROCESSOR_URL = "http://data-processor:4545"
 DEFAULT_DATA_COLLECTOR_URL = "http://data-collector:3000"
 
 
@@ -57,7 +57,7 @@ def mount_schema(capability, opts):
 
 
 def retrieve_params(job_id):
-    url = DEFAULT_BATCH_PROCESSOR_URL + '/api/retrieve_params'
+    url = DEFAULT_DATA_PROCESSOR_URL + '/api/retrieve_params'
     response = requests.get(url, params={'job_id': job_id})
     return response.json()
 

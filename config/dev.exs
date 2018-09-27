@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :batch_processor, BatchProcessorWeb.Endpoint,
+config :data_processor, DataProcessorWeb.Endpoint,
   http: [port: 4545],
   debug_errors: true,
   code_reloader: true,
@@ -31,13 +31,13 @@ config :batch_processor, BatchProcessorWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :batch_processor, BatchProcessorWeb.Endpoint,
+config :data_processor, DataProcessorWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/batch_processor_web/views/.*(ex)$},
-      ~r{lib/batch_processor_web/templates/.*(eex)$}
+      ~r{lib/data_processor_web/views/.*(ex)$},
+      ~r{lib/data_processor_web/templates/.*(eex)$}
     ]
   ]
 
@@ -49,12 +49,12 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :batch_processor, BatchProcessor.Repo,
+config :data_processor, DataProcessor.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "batch_processor_dev",
+  database: "data_processor_dev",
   hostname: "db",
   pool_size: 10
 
-config :batch_processor, :environment, :dev
+config :data_processor, :environment, :dev

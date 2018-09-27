@@ -1,4 +1,4 @@
-defmodule BatchProcessor.SparkHandler do
+defmodule DataProcessor.SparkHandler do
   @doc "Title to be shown on handlers page"
   @callback title() :: String.t
 

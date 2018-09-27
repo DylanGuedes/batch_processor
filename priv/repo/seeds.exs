@@ -5,7 +5,7 @@
 # Inside the script, you can read and write to any of your
 # repositories directly:
 #
-#     BatchProcessor.Repo.insert!(%BatchProcessor.SomeSchema{})
+#     DataProcessor.Repo.insert!(%DataProcessor.SomeSchema{})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.

@@ -1,4 +1,4 @@
-defmodule BatchProcessorWeb.ChannelCase do
+defmodule DataProcessorWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule BatchProcessorWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint BatchProcessorWeb.Endpoint
+      @endpoint DataProcessorWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(BatchProcessor.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(DataProcessor.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(BatchProcessor.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(DataProcessor.Repo, {:shared, self()})
     end
     :ok
   end

@@ -1,9 +1,9 @@
-defmodule BatchProcessor.DockerJob do
+defmodule DataProcessor.DockerJob do
   @moduledoc """
   * Module that represents interaction with Spark Docker jobs.
 
   ## Usage
-  iex> alias BatchProcessor.DockerJob
+  iex> alias DataProcessor.DockerJob
   iex> opts = %{"uuid" => "abcde",
   ...> "spark_job_name" => "linear_regression",
   ...> "params" => %{"schema" => %{}}}

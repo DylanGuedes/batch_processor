@@ -1,4 +1,4 @@
-defmodule BatchProcessor.InterSCity.JobParams do
+defmodule DataProcessor.InterSCity.JobParams do
   use Ecto.Schema
   import Ecto.Changeset
 

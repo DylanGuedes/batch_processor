@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :batch_processor, BatchProcessorWeb.Endpoint,
+config :data_processor, DataProcessorWeb.Endpoint,
   http: [port: 4001],
   server: false
 
@@ -10,12 +10,12 @@ config :batch_processor, BatchProcessorWeb.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :batch_processor, BatchProcessor.Repo,
+config :data_processor, DataProcessor.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "batch_processor_test",
+  database: "data_processor_test",
   hostname: System.get_env("TEST_DB"),
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :batch_processor, :environment, :test
+config :data_processor, :environment, :test

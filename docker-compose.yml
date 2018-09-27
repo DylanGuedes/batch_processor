@@ -1,8 +1,8 @@
 version: '2.1'
 
 services:
-  batch-processor:
-    container_name: 'batch-processor'
+  data-processor:
+    container_name: 'data-processor'
     build: .
     ports:
       - 4545:4545

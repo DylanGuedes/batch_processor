@@ -6,15 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :batch_processor,
-  ecto_repos: [BatchProcessor.Repo]
+config :data_processor,
+  ecto_repos: [DataProcessor.Repo]
 
 # Configures the endpoint
-config :batch_processor, BatchProcessorWeb.Endpoint,
+config :data_processor, DataProcessorWeb.Endpoint,
   url: [host: "db"],
   secret_key_base: "gXobmTsMbqjk69LoJhWkJMENIMgXG0eTgi9a8wem58yyluFRoMiRJGrzvs04L5OB",
-  render_errors: [view: BatchProcessorWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: BatchProcessor.PubSub,
+  render_errors: [view: DataProcessorWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: DataProcessor.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
@@ -26,4 +26,4 @@ config :logger, :console,
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
 
-config :batch_processor, :environment, Mix.env()
+config :data_processor, :environment, Mix.env()

@@ -1,10 +1,10 @@
-defmodule BatchProcessor.JobManager do
+defmodule DataProcessor.JobManager do
   @moduledoc """
   * Module that represents interaction with Spark Docker jobs.
 
   ## Usage
-  iex> alias BatchProcessor.JobManager
-  iex> alias BatchProcessor.DockerJob
+  iex> alias DataProcessor.JobManager
+  iex> alias DataProcessor.DockerJob
   iex> uuid = JobManager.register_job("linear_regression", %{})
   iex> pid = JobManager.job_pid(uuid)
   iex> DockerJob.status(pid)
@@ -13,7 +13,7 @@ defmodule BatchProcessor.JobManager do
 
   use Agent
 
-  alias BatchProcessor.DockerJob
+  alias DataProcessor.DockerJob
 
   @spec start_link(any) :: {atom, pid()}
   def start_link(_opts),

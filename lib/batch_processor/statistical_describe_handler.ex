@@ -1,5 +1,5 @@
-defmodule BatchProcessor.StatisticalDescribeHandler do
-  alias BatchProcessor.JobManager
+defmodule DataProcessor.StatisticalDescribeHandler do
+  alias DataProcessor.JobManager
 
   @common_fields ["publish_strategy", "interscity", "schema"]
 

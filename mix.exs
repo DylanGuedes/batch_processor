@@ -1,9 +1,9 @@
-defmodule BatchProcessor.Mixfile do
+defmodule DataProcessor.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :batch_processor,
+      app: :data_processor,
       version: "0.0.1",
       elixir: "~> 1.7.0",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -21,7 +21,7 @@ defmodule BatchProcessor.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {BatchProcessor.Application, []},
+      mod: {DataProcessor.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

@@ -1,4 +1,4 @@
-defmodule BatchProcessor.DataCase do
+defmodule DataProcessor.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule BatchProcessor.DataCase do
 
   using do
     quote do
-      alias BatchProcessor.Repo
+      alias DataProcessor.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import BatchProcessor.DataCase
+      import DataProcessor.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(BatchProcessor.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(DataProcessor.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(BatchProcessor.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(DataProcessor.Repo, {:shared, self()})
     end
 
     :ok

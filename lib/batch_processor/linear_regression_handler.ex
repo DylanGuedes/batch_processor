@@ -1,9 +1,9 @@
-defmodule BatchProcessor.LinearRegressionHandler do
-  alias BatchProcessor.JobManager
+defmodule DataProcessor.LinearRegressionHandler do
+  alias DataProcessor.JobManager
 
   @common_fields ["publish_strategy", "interscity", "schema"]
 
-  @behaviour BatchProcessor.SparkHandler
+  @behaviour DataProcessor.SparkHandler
 
   def title() do
     "Linear Regression Handler"
