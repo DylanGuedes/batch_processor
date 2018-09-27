@@ -29,6 +29,7 @@ defmodule BatchProcessorWeb.Router do
     post("/update_publish_strategy", JobParamsController, :update_publish_strategy)
     get("/remove_schema_field", JobParamsController, :remove_schema_field)
     get("/remove_interscity_field", JobParamsController, :remove_interscity_field)
+    get("/remove_functional_field", JobParamsController, :remove_functional_field)
     get("/schedule_spark_job", JobParamsController, :schedule_spark_job)
     get("/remove_job", JobParamsController, :remove_job)
   end

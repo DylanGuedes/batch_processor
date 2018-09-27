@@ -1,5 +1,8 @@
 defmodule BatchProcessor.JobManagerTest do
+
   use ExUnit.Case
+
+  doctest BatchProcessor.JobManager
 
   alias BatchProcessor.JobManager
 

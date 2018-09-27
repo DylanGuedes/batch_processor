@@ -15,7 +15,7 @@
         <td><%= k %></td>
         <td><%= v %></td>
         <td>
-          <a href="<%= job_params_path(@conn, :remove_interscity_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
+          <a href="<%= job_params_path(@conn, :remove_functional_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
             <i class="remove icon"></i>
           </a>
         </td>
