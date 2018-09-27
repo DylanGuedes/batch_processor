@@ -10,4 +10,37 @@ defmodule DataProcessor.SparkHandler do
 
   @doc "Required params to be filled"
   @callback required_params() :: String.t
+
+  @doc ""
+  @callback run(map) :: {:success, String.t() }
+
+  defmacro __using__(_params) do
+    quote do
+      @behaviour SparkHandler
+
+      @spec missing_keys(map, list) :: list
+      def missing_keys(map, keys) do
+        keys
+        |> Enum.filter(fn key -> Map.fetch(map, key) == :error end)
+      end
+
+      @spec missing_params(map) :: list
+      def missing_params(params) do
+        missing_keys(params, @common_fields)
+      end
+
+      @spec run(map) :: {:success, String.t()}
+      def run(params) do
+        {:success, DataProcessor.JobManager.register_job(slug_title(), params)}
+      end
+
+      @spec handle(map) :: {:success | :error, String.t()}
+      def handle(params) do
+        case missing_params(params) do
+          [] -> run(params)
+          missing_params_list -> {:error, "Missing param(s) #{Enum.join(missing_params_list, ", ")}"}
+        end
+      end
+    end
+  end
 end

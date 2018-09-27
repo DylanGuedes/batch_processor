@@ -2,12 +2,12 @@ defmodule DataProcessorWeb.API.JobController do
   use DataProcessorWeb, :controller
 
   alias DataProcessor.InterSCity
-  alias DataProcessor.LinearRegressionHandler
+  alias DataProcessor.Handlers.LinearRegression
   alias DataProcessor.JobManager
   alias DataProcessor.DockerJob
 
   @handlers %{
-    "linear_regression" => LinearRegressionHandler
+    "linear_regression" => LinearRegression
   }
 
   def register_job(conn, params) do

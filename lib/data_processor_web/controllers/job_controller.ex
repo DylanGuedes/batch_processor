@@ -1,7 +1,7 @@
 defmodule DataProcessorWeb.JobController do
   use DataProcessorWeb, :controller
 
-  alias DataProcessor.LinearRegressionHandler
+  alias DataProcessor.Handlers.LinearRegression
   alias DataProcessor.JobManager
   alias DataProcessor.DockerJob
 

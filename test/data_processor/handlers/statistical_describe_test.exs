@@ -1,9 +1,9 @@
-defmodule DataProcessor.LinearRegressionTest do
+defmodule DataProcessor.Handlers.StatisticalDescribeTest do
   use ExUnit.Case
 
   alias DataProcessor.DockerJob
   alias DataProcessor.JobManager
-  alias DataProcessor.LinearRegressionHandler
+  alias DataProcessor.Handlers.StatisticalDescribe
 
   setup do
     _pid = start_supervised!(JobManager)
@@ -11,9 +11,7 @@ defmodule DataProcessor.LinearRegressionTest do
       "publish_strategy" => %{
         "name" => "console"
       },
-      "functional_params" => %{
-        "test_split" => "0.2"
-      },
+      "functional_params" => %{ },
       "schema" => %{
         "zip" => "integer"
       },
@@ -24,9 +22,9 @@ defmodule DataProcessor.LinearRegressionTest do
     %{opts: opts}
   end
 
-  test "spawn linear regression with correct params", %{opts: opts} do
+  test "spawn statistical describe with correct params", %{opts: opts} do
     assert JobManager.registered_jobs == []
-    {:success, uuid} = LinearRegressionHandler.handle(opts)
+    {:success, uuid} = StatisticalDescribe.handle(opts)
     assert JobManager.registered_jobs != []
     pid = JobManager.job_pid(uuid)
     assert DockerJob.status(pid) == :ready
