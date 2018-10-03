@@ -1,4 +1,4 @@
-defmodule BatchProcessor.Repo.Migrations.AddScheduledJobsToJobParams do
+defmodule DataProcessor.Repo.Migrations.AddScheduledJobsToJobParams do
   use Ecto.Migration
 
   def change do

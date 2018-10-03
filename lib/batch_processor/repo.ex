@@ -1,5 +1,5 @@
-defmodule BatchProcessor.Repo do
-  use Ecto.Repo, otp_app: :batch_processor
+defmodule DataProcessor.Repo do
+  use Ecto.Repo, otp_app: :data_processor
 
   @doc """
   Dynamically loads the repository url from the

@@ -1,7 +1,7 @@
-# BatchProcessor
+# Data Processor
 
-[![CircleCI](https://circleci.com/gh/DylanGuedes/batch_processor/tree/master.svg?style=svg)](https://circleci.com/gh/DylanGuedes/batch_processor/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/DylanGuedes/batch_processor/badge.svg?branch=master)](https://coveralls.io/github/DylanGuedes/batch_processor?branch=master)
+[![CircleCI](https://circleci.com/gh/DylanGuedes/data_processor/tree/master.svg?style=svg)](https://circleci.com/gh/DylanGuedes/data_processor/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/DylanGuedes/data_processor/badge.svg?branch=master)](https://coveralls.io/github/DylanGuedes/data_processor?branch=master)
 
 ## Running
 

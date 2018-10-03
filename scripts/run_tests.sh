@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose exec batch-processor sh -c "MIX_ENV=test mix test --cover"
+docker-compose exec data-processor sh -c "MIX_ENV=test mix test --cover"

@@ -1,4 +1,4 @@
-defmodule BatchProcessor.Repo.Migrations.CreateJobParams do
+defmodule DataProcessor.Repo.Migrations.CreateJobParams do
   use Ecto.Migration
 
   def change do

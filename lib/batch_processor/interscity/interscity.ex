@@ -1,12 +1,12 @@
-defmodule BatchProcessor.InterSCity do
+defmodule DataProcessor.InterSCity do
   @moduledoc """
   The InterSCity context.
   """
 
   import Ecto.Query, warn: false
-  alias BatchProcessor.Repo
+  alias DataProcessor.Repo
 
-  alias BatchProcessor.InterSCity.JobParams
+  alias DataProcessor.InterSCity.JobParams
 
   @doc """
   Returns the list of job_params.

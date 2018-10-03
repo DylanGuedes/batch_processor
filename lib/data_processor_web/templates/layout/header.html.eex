@@ -1,0 +1,6 @@
+<div class="ui menu">
+  <%= link("InterSCity", to: "/", class: "header item") %>
+  <%= link("Templates", to: job_params_path(@conn, :index), class: "item") %>
+  <%= link("Jobs", to: job_path(@conn, :index), class: "item") %>
+  <%= link("Handlers", to: handler_path(@conn, :index), class: "item") %>
+</div>
