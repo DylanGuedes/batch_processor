@@ -1,5 +1,4 @@
 defmodule DataProcessor.Handlers.LinearRegression do
-
   @common_fields ["publish_strategy", "interscity", "schema"]
 
   alias DataProcessor.JobManager

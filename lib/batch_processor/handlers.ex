@@ -1,4 +1,4 @@
-defmodule DataProcessor.SparkHandler do
+defmodule DataProcessor.SparkHandlerCallbacks do
   @doc "Title to be shown on handlers page"
   @callback title() :: String.t
 
@@ -12,11 +12,13 @@ defmodule DataProcessor.SparkHandler do
   @callback required_params() :: String.t
 
   @doc ""
-  @callback run(map) :: {:success, String.t() }
+  @callback run(m :: map) :: {:success, String.t() }
+end
 
+defmodule DataProcessor.SparkHandler do
   defmacro __using__(_params) do
     quote do
-      @behaviour SparkHandler
+      @behaviour DataProcessor.SparkHandlerCallbacks
 
       @spec missing_keys(map, list) :: list
       def missing_keys(map, keys) do
