@@ -5,8 +5,8 @@ defmodule DataProcessorWeb.JobParamsController do
   alias DataProcessor.InterSCity.JobParams
 
   @handlers [
-    DataProcessor.StatisticalDescribeHandler,
-    DataProcessor.LinearRegressionHandler]
+    DataProcessor.Handlers.StatisticalDescribe,
+    DataProcessor.Handlers.LinearRegression]
 
   def index(conn, _params),
     do: render(conn, "index.html", job_params: InterSCity.list_job_params())
@@ -163,6 +163,20 @@ defmodule DataProcessorWeb.JobParamsController do
         conn
         |> put_flash(:info, "Your job is successfully running with UUID #{uuid}")
         |> redirect(to: job_params_path(conn, :show, job_params))
+    end
+  end
+
+  def clone(conn, %{"id" => id}) do
+    job_params = InterSCity.get_job_params!(id)
+
+    case InterSCity.create_job_params(job_params) do
+      {:ok, j} ->
+        conn
+        |> put_flash(:info, "Job params created successfully.")
+        |> redirect(to: job_params_path(conn, :show, j))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        redirect(conn, to: job_params_path(conn, :show, job_params))
     end
   end
 end

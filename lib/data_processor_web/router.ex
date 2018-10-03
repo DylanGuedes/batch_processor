@@ -32,6 +32,7 @@ defmodule DataProcessorWeb.Router do
     get("/remove_functional_field", JobParamsController, :remove_functional_field)
     get("/schedule_spark_job", JobParamsController, :schedule_spark_job)
     get("/remove_job", JobParamsController, :remove_job)
+    get("/clone", JobParamsController, :clone)
   end
 
   scope "/api", DataProcessorWeb do

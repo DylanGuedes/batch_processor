@@ -12,9 +12,7 @@
   </head>
 
   <body>
-    <div class="ui menu">
-      <%= render "header.html", conn: @conn %>
-    </div>
+    <%= render "header.html", conn: @conn %>
 
     <%= if get_flash(@conn, :info) do %>
       <p class="ui green message" role="alert"><%= get_flash(@conn, :info) %></p>

@@ -2,8 +2,8 @@ defmodule DataProcessorWeb.HandlerController do
   use DataProcessorWeb, :controller
 
   @handlers [
-    DataProcessor.LinearRegressionHandler,
-    DataProcessor.StatisticalDescribeHandler
+    DataProcessor.Handlers.LinearRegression,
+    DataProcessor.Handlers.StatisticalDescribe
   ]
 
   def index(conn, _params) do

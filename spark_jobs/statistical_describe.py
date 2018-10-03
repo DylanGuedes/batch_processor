@@ -26,5 +26,10 @@ if __name__ == '__main__':
                 explode(col("capabilities.{0}".format(capability_to_analyze))).alias(capability_to_analyze))
             .select(exploded_fields))
 
-    df.describe().rdd.saveAsTextFile(publish_strategy["name"])
+    fields_to_analyze = list(map(lambda a: a.strip(), params["functional_params"]["fields_to_analyze"].split(",")))
+    (df
+            .select(fields_to_analyze)
+            .describe()
+            .rdd
+            .saveAsTextFile(publish_strategy["name"]))
     spark.stop()
