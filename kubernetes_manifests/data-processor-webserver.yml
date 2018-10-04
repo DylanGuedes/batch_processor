@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: data-processor-webserver
+  labels:
+    app: data-processor-webserver
+spec:
+  containers:
+    - image: dylanguedes/data-processor
+      name: data-processor-webserver
+      ports:
+        - containerPort: 80

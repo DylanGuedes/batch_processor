@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: data-processor-webserver
+spec:
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: data-processor-webserver
+    spec:
+      containers:
+        - image: dylanguedes/data-processor
+          imagePullPolicy: Always
+          name: data-processor-webserver
+          ports:
+            - containerPort: 4545

@@ -91,6 +91,15 @@ services:
     environment:
       ADVERTISED_HOST: 172.17.0.1
 
+  hadoop:
+    container_name: "hadoop"
+    image: sequenceiq/hadoop-docker
+    ports:
+      - "8020:8020"
+      - "50070:50070"
+      - "50010:50010"
+      - "9000:9000"
+
 networks:
   default:
     external:
