@@ -3,7 +3,7 @@ import org.apache.spark.sql.types.{
   StructType, StructField, DoubleType, IntegerType
 }
 
-class SimpleApp {
+object InterSCity Jobs {
   def main(args: Array[String]) {
     val spark = SparkSession.builder.appName("My Application").getOrCreate()
     val rdd = spark.sparkContext.parallelize(Seq(
@@ -12,7 +12,7 @@ class SimpleApp {
         Row(4000, 2, 2),
         Row(5000, 2, 3)))
     val schema = new StructType(Array(
-				StructField("price", DoubleType, nullable = false),
+				StructField("price", IntegerType, nullable = false),
 				StructField("baths", IntegerType, nullable = false),
 				StructField("rooms", IntegerType, nullable = false)))
     val df = spark.createDataFrame(rdd, schema)
