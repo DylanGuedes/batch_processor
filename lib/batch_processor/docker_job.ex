@@ -75,7 +75,7 @@ defmodule DataProcessor.DockerJob do
       # container name
       "master",
       "spark-submit",
-      "/jobs/#{state["spark_job_name"]}.py",
+      "/jobs/python/#{state["spark_job_name"]}.py",
       state["uuid"]
     ]
 

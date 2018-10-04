@@ -10,7 +10,7 @@ defmodule DataProcessor.Handlers.StatisticalDescribe do
   end
 
   def slug_title() do
-    "statistical-describe-handler"
+    "statistical_describe_handler"
   end
 
   def description() do

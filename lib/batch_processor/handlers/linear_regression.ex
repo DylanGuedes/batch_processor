@@ -9,7 +9,7 @@ defmodule DataProcessor.Handlers.LinearRegression do
   end
 
   def slug_title() do
-    "linear-regression-handler"
+    "linear_regression_handler"
   end
 
   def description() do
