@@ -11,7 +11,7 @@ config :data_processor,
 
 # Configures the endpoint
 config :data_processor, DataProcessorWeb.Endpoint,
-  url: [host: "db"],
+  url: [host: System.get_env("DB_HOST"), port: System.get_env("DB_PORT")],
   secret_key_base: "gXobmTsMbqjk69LoJhWkJMENIMgXG0eTgi9a8wem58yyluFRoMiRJGrzvs04L5OB",
   render_errors: [view: DataProcessorWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: DataProcessor.PubSub,

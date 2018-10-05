@@ -54,7 +54,8 @@ config :data_processor, DataProcessor.Repo,
   username: "postgres",
   password: "postgres",
   database: "data_processor_dev",
-  hostname: "db",
+  hostname: System.get_env("DB_HOST"),
+  port: System.get_env("DB_PORT"),
   pool_size: 10
 
 config :data_processor, :environment, :dev

@@ -20,6 +20,8 @@ services:
       # - ./cover:/opt/app/cover
     environment:
       TEST_DB: "db"
+      DB_HOST: "db"
+      DB_PORT: 5432
 
   db:
     container_name: db

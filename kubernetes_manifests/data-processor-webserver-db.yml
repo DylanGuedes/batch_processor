@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: data-processor-webserver-db-config
+  labels:
+    app: data-processor-webserver-db
+data:
+  POSTGRES_DB: data_processor_dev
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-processor-webserver-db-pv-volume
+  labels:
+    type: local
+    app: data-processor-webserver-db
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-processor-webserver-db-pv-claim
+  labels:
+    app: data-processor-webserver-db
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: data-processor-webserver-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: data-processor-webserver-db
+    spec:
+      containers:
+        - name: db
+          image: postgres:10.4
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: data-processor-webserver-db-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: data-processor-webserver-db-pv-claim
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-processor-webserver-db-portfoward
+  labels:
+    app: data-processor-webserver-db
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: data-processor-webserver-db
+---

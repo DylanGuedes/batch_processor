@@ -16,8 +16,28 @@ spec:
         app: data-processor-webserver
     spec:
       containers:
-        - image: dylanguedes/data-processor
+        - image: dylanguedes/data-processor:v5
+          env:
+            - name: DB_HOST
+              value: "192.168.39.231"
+            - name: DB_PORT
+              value: "32519"
           imagePullPolicy: Always
           name: data-processor-webserver
           ports:
             - containerPort: 4545
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-processor-webserver-lb
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 4545
+  selector:
+    app: data-processor-webserver
+---

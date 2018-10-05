@@ -16,6 +16,7 @@ config :data_processor, DataProcessor.Repo,
   password: "postgres",
   database: "data_processor_test",
   hostname: System.get_env("TEST_DB"),
+  port: System.get_env("DB_PORT"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :data_processor, :environment, :test
