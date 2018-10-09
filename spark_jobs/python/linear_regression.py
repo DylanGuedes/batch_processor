@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode, col
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.regression import LinearRegression
-from util import mount_schema, get_data_collection, retrieve_params
+from util import mount_schema, get_data_collection, retrieve_params, fields_name
 
 import sys
 

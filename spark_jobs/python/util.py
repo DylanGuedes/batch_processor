@@ -1,13 +1,39 @@
+from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, ArrayType, StringType, DoubleType, IntegerType, DateType
 from pyspark.sql.functions import explode, col
 import requests
 
 
 DEFAULT_DATA_PROCESSOR_URL = "http://data-processor:4545"
-DEFAULT_DATA_COLLECTOR_URL = "http://data-collector:3000"
+DEFAULT_DATA_COLLECTOR_URL = "http://interscity-data-collector:3000"
 
 
-def get_data_collection(capability):
+def mount_df_from_collector(capability, opts=None):
+    ingestion_strategy = "rest"
+    if ("ingestion_strategy" in opts["interscity"].keys()):
+        ingestion_strategy = opts["interscity"]["ingestion_strategy"]
+
+    if (ingestion_strategy == "rest"):
+        return mount_df_using_rest(capability)
+    else:
+        return mount_df_using_mongo(capability)
+
+
+def mount_df_using_mongo(capability):
+    spark = SparkSession.builder.getOrCreate()
+    DEFAULT_URI = "mongodb://interscity-mongo/data_collector_development"
+    DEFAULT_COLLECTION = "sensor_values"
+    pipeline = "{'$match': {'capability': '"+capability+"'}}"
+
+    return (spark
+            .read
+            .format("com.mongodb.spark.sql.DefaultSource")
+            .option("spark.mongodb.input.uri", "{0}.{1}".format(DEFAULT_URI, DEFAULT_COLLECTION))
+            .option("pipeline", pipeline)
+            .load())
+
+
+def mount_df_using_rest(capability):
     # get data from collector
     data_collector_url = DEFAULT_DATA_COLLECTOR_URL
 
@@ -40,13 +66,13 @@ def mount_schema(capability, opts):
     for name, typ in opts_sch.items():
         print("add field {0} of type {1}".format(name, typ))
         if typ == "string":
-            fields.append(StructField(name, StringType(), False))
+            fields.append(StructField(name, StringType(), True))
         elif typ == "double":
-            fields.append(StructField(name, DoubleType(), False))
+            fields.append(StructField(name, DoubleType(), True))
         elif typ == "integer":
-            fields.append(StructField(name, IntegerType(), False))
+            fields.append(StructField(name, IntegerType(), True))
         elif typ == "date":
-            fields.append(StructField(name, StringType(), False))
+            fields.append(StructField(name, StringType(), True))
 
     return StructType([
         StructField("uuid", StringType(), False),

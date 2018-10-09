@@ -3,7 +3,8 @@ defmodule DataProcessorWeb.HandlerController do
 
   @handlers [
     DataProcessor.Handlers.LinearRegression,
-    DataProcessor.Handlers.StatisticalDescribe
+    DataProcessor.Handlers.StatisticalDescribe,
+    DataProcessor.Handlers.KMeans
   ]
 
   def index(conn, _params) do

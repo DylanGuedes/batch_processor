@@ -75,6 +75,8 @@ defmodule DataProcessor.DockerJob do
       # container name
       "master",
       "spark-submit",
+      "--packages",
+      "org.mongodb.spark:mongo-spark-connector_2.11:2.3.1",
       "/jobs/python/#{state["spark_job_name"]}.py",
       state["uuid"]
     ]

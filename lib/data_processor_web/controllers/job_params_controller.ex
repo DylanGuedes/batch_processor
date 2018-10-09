@@ -6,7 +6,9 @@ defmodule DataProcessorWeb.JobParamsController do
 
   @handlers [
     DataProcessor.Handlers.StatisticalDescribe,
-    DataProcessor.Handlers.LinearRegression]
+    DataProcessor.Handlers.LinearRegression,
+    DataProcessor.Handlers.KMeans
+  ]
 
   def index(conn, _params),
     do: render(conn, "index.html", job_params: InterSCity.list_job_params())
