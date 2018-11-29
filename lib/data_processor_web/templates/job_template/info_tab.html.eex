@@ -1,6 +1,6 @@
 <div class="ui horizontal statistic">
   <div class="value">
-    <%= @job.scheduled_jobs %>
+    <%= @template.scheduled_jobs %>
   </div>
   <div class="label">
     Scheduled Jobs

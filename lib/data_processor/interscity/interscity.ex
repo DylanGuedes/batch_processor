@@ -1,141 +1,78 @@
 defmodule DataProcessor.InterSCity do
-  @moduledoc """
-  The InterSCity context.
-  """
-
   import Ecto.Query, warn: false
   alias DataProcessor.Repo
 
-  alias DataProcessor.InterSCity.JobParams
+  alias DataProcessor.InterSCity.JobTemplate
 
-  @doc """
-  Returns the list of job_params.
-
-  ## Examples
-
-      iex> list_job_params()
-      [%JobParams{}, ...]
-
-  """
-  def list_job_params do
-    Repo.all(JobParams)
+  def list_templates do
+    Repo.all(JobTemplate)
   end
 
-  @doc """
-  Gets a single job_params.
+  def get_template!(id), do: Repo.get!(JobTemplate, id)
 
-  Raises `Ecto.NoResultsError` if the Job params does not exist.
+  def clone_template(%JobTemplate{} = template) do
+    changeset_params = %{
+      title: template.title,
+      handler: template.handler,
+      params: template.params
+    }
+    JobTemplate.changeset(%JobTemplate{}, changeset_params) |> Repo.insert
+  end
 
-  ## Examples
-
-      iex> get_job_params!(123)
-      %JobParams{}
-
-      iex> get_job_params!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_job_params!(id), do: Repo.get!(JobParams, id)
-
-  @doc """
-  Creates a job_params.
-
-  ## Examples
-
-      iex> create_job_params(%{field: value})
-      {:ok, %JobParams{}}
-
-      iex> create_job_params(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_job_params(attrs \\ %{}) do
-    initial_spark_params = %{
+  def create_template(attrs \\ %{}) do
+    initial_params = %{
       "schema" => %{},
-      "publish_strategy" => %{"name" => "file", "format" => "csv"},
+      "publish_strategy" => %{"title" => "file", "format" => "csv"},
       "functional_params" => %{},
       "interscity" => %{}
     }
 
     attrs =
       attrs
-      |> Map.put("spark_params", initial_spark_params)
+      |> Map.put("params", initial_params)
 
-    %JobParams{}
-    |> JobParams.changeset(attrs)
+    %JobTemplate{}
+    |> JobTemplate.changeset(attrs)
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a job_params.
-
-  ## Examples
-
-      iex> update_job_params(job_params, %{field: new_value})
-      {:ok, %JobParams{}}
-
-      iex> update_job_params(job_params, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_job_params(%JobParams{} = job_params, attrs) do
-    job_params
-    |> JobParams.changeset(attrs)
+  def update_template(%JobTemplate{}=struct, attrs) do
+    JobTemplate.changeset(struct, attrs)
+    |> Repo.update()
+  end
+  def update_template(changeset, attrs) do
+    changeset
+    |> JobTemplate.changeset(attrs)
     |> Repo.update()
   end
 
-  @doc """
-  Deletes a JobParams.
-
-  ## Examples
-
-      iex> delete_job_params(job_params)
-      {:ok, %JobParams{}}
-
-      iex> delete_job_params(job_params)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_job_params(%JobParams{} = job_params) do
-    Repo.delete(job_params)
+  def delete_template(%JobTemplate{} = job_template) do
+    Repo.delete(job_template)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking job_params changes.
-
-  ## Examples
-
-      iex> change_job_params(job_params)
-      %Ecto.Changeset{source: %JobParams{}}
-
-  """
-  def change_job_params(%JobParams{} = job_params) do
-    JobParams.changeset(job_params, %{})
+  def increase_scheduled_jobs(template) do
+    changeset = JobTemplate.changeset(template, %{})
+    scheduled_jobs = template.scheduled_jobs
+    update_template(changeset, %{scheduled_jobs: scheduled_jobs + 1})
   end
 
-  def increase_scheduled_jobs(job_params) do
-    changeset = change_job_params(job_params)
-    scheduled_jobs = job_params.scheduled_jobs
-    update_job_params(job_params, %{scheduled_jobs: scheduled_jobs + 1})
-  end
-
-  def alter_spark_param(job_params, command, table, key, value) do
-    old_map = 
-      job_params
-      |> Map.get(:spark_params)
+  def alter_param(template, command, table, key, value) do
+    old_params =
+      template
+      |> Map.get(:params)
       |> Map.fetch!("#{table}")
 
-    new_map =
+    new_params =
       case command do
-        :update -> Map.put(old_map, key, value)
-        :remove -> Map.delete(old_map, key)
+        :update -> Map.put(old_params, key, value)
+        :remove -> Map.delete(old_params, key)
       end
 
-    new_spark_params =
-      job_params
-      |> Map.get(:spark_params)
-      |> Map.put(table, new_map)
+    final_params =
+      template
+      |> Map.get(:params)
+      |> Map.put(table, new_params)
 
-    update_job_params(job_params, %{spark_params: new_spark_params})
+    update_template(template, %{params: final_params})
   end
 end

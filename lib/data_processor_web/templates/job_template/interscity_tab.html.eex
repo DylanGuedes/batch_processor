@@ -1,4 +1,4 @@
-<h4 class="ui header">Functional Params</h4>
+<h4 class="ui header">InterSCity Parameters</h4>
 
 <table class="ui celled table">
   <thead>
@@ -8,16 +8,13 @@
       <th>Remove</th>
     </tr>
   </thead>
-
   <tbody>
-    <%= for {k, v} <- Map.get(@spark_params, "functional_params") do %>
+    <%= for {k, v} <- Map.get(@params, "interscity") do %>
       <tr>
         <td><%= k %></td>
         <td><%= v %></td>
         <td>
-          <a href="<%= job_params_path(@conn, :remove_functional_field, %{"id" => @job.id, "field" => k}) %>" class="ui icon button red">
-            <i class="remove icon"></i>
-          </a>
+          <%= link("Delete", to: job_template_field_path(@conn, :update_field, @template.id, [key: k, table: "interscity", command: "drop"]), method: :post, class: "ui icon button red") %>
         </td>
       </tr>
     <% end %>
@@ -28,10 +25,10 @@
 
 <h4 class="ui header">Add InterSCity Param</h4>
 <div class="ui segment center aligned ">
-  <%= form_for @conn, job_params_path(@conn, :add_functional_field), [class: "ui form"], fn f -> %>
+  <%= form_for @conn, job_template_field_path(@conn, :update_field, @template.id), [class: "ui form"], fn f -> %>
     <div class="field">
-      <%= label f, :field, "Field Name" %>
-      <%= text_input f, :field, class: "ui field" %>
+      <%= label f, :key, "Field Name" %>
+      <%= text_input f, :key, class: "ui field" %>
     </div>
 
     <div class="field">
@@ -39,7 +36,8 @@
       <%= text_input f, :value %>
     </div>
 
-    <%= hidden_input f, :id, value: @job.id %>
+    <%= hidden_input f, :command, value: :update %>
+    <%= hidden_input f, :table, value: :interscity %>
 
     <button class="fluid ui left labeled icon green button" type="submit">
       <i class="icon plus"></i>Add field to InterSCity config

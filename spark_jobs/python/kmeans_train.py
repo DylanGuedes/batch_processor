@@ -30,7 +30,7 @@ if __name__ == '__main__':
     assembled_df = assembler.transform(df).select("features")
 
     # Running KMeans
-    how_many_clusters = functional_params.get("k", 2)
+    how_many_clusters = int(functional_params.get("k", 2))
     seed_to_use = functional_params.get("seed", 1)
     kmeans = KMeans().setK(how_many_clusters).setSeed(seed_to_use)
     model = kmeans.fit(assembled_df)
@@ -47,10 +47,9 @@ if __name__ == '__main__':
     center_host = functional_params.get("centers_host", "/tmp/data/")
     center_path = functional_params.get("centers_path", None)
     centers_df = spark.createDataFrame(centers, features)
-    
+
     if (center_path != None):
         centers_df.write.mode("overwrite").save(center_host + center_path)
     else:
         centers_df.show(truncate=False)
-
     spark.stop()

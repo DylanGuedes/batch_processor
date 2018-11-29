@@ -18,6 +18,7 @@
 // paths "./socket" or full ones "web/static/js/socket".
 
 import "./semantic.min.js";
+import "./phoenix_html.js";
 
 $(document).ready(function() {
   $('.menu .item').tab();

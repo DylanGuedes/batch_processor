@@ -1,0 +1,12 @@
+<h2 class="ui header">Editing Template <%= @template.title %></h2>
+
+<%= form_for @changeset, job_template_path(@conn, :update, @template.id), [class: "ui form"], fn f -> %>
+  <div class="field">
+    <%= label f, :title, "Title" %>
+    <%= text_input f, :title, class: "ui field" %>
+  </div>
+
+  <button class="fluid ui left labeled icon green button" type="submit">
+    Update template
+  </button>
+<% end %>

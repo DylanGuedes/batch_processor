@@ -22,7 +22,7 @@ defmodule DataProcessor.Mixfile do
   def application do
     [
       mod: {DataProcessor.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :coherence]
     ]
   end
 
@@ -35,8 +35,8 @@ defmodule DataProcessor.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:guardian, "~> 1.0"},
-      {:comeonin, "~> 4.0"},
+      {:coherence, "0.5.2"},
+      {:plug_cowboy, "~> 1.0"},
       {:phoenix, "~> 1.3.3"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
@@ -46,7 +46,10 @@ defmodule DataProcessor.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:dialyxir, "~> 1.0.0-rc.3", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.8", only: :test}
+      {:excoveralls, "~> 0.8", only: :test},
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:ex_guard, "~> 1.3", only: :dev},
+      {:ex_unit_notifier, "~> 0.1", only: :test}
     ]
   end
 

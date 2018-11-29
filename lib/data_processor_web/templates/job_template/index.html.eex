@@ -1,0 +1,22 @@
+<h2>Templates</h2>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for template <- @templates do %>
+    <tr>
+      <td><%= link template.title, to: job_template_path(@conn, :show, template) %></td>
+      <td><%= link "Edit", to: job_template_path(@conn, :edit, template) %></td>
+      <td><%= link("Delete", to: job_template_path(@conn, :delete, template.id), method: :delete) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Template", to: job_template_path(@conn, :new) %></span>
