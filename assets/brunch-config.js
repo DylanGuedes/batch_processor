@@ -6,7 +6,8 @@ exports.config = {
       order: {
         before: [
           "node_modules/jquery/dist/jquery.min.js",
-          "js/semantic.min.js"
+          "js/semantic.min.js",
+          "priv/static/phoenix_html.js"
         ]
       }
 

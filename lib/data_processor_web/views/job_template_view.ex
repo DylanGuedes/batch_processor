@@ -1,4 +1,4 @@
-defmodule DataProcessorWeb.JobParamsView do
+defmodule DataProcessorWeb.JobTemplateView do
   use DataProcessorWeb, :view
 
   def active_tab_tag(tab, tab),

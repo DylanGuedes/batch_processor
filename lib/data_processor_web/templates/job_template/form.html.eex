@@ -7,9 +7,9 @@
     <% end %>
 
     <div class="field">
-      <%= label f, :name %>
-      <%= text_input f, :name, class: "ui field" %>
-      <%= error_tag f, :name %>
+      <%= label f, :title %>
+      <%= text_input f, :title, class: "ui field" %>
+      <%= error_tag f, :title %>
     </div>
 
     <div class="field">

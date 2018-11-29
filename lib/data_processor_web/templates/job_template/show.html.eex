@@ -1,4 +1,4 @@
-<h2 class="ui header"><%= @job.name %> Template</h2>
+<h2 class="ui header"><%= @template.title %> Template</h2>
 
 <div class="ui grid">
   <div class="six wide column">
@@ -13,23 +13,23 @@
 
   <div class="ten wide stretched column">
     <div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "info") %>" data-tab="info">
-      <%= render "info_tab.html", [job: @job, spark_params: @job.spark_params, conn: @conn] %>
+      <%= render "info_tab.html", [template: @template, params: @template.params, conn: @conn] %>
     </div>
 
     <div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "schema") %>" data-tab="schema">
-      <%= render "schema_tab.html", [job: @job, spark_params: @job.spark_params, conn: @conn] %>
+      <%= render "schema_tab.html", [template: @template, params: @template.params, conn: @conn] %>
     </div>
 
     <div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "publish-strategy") %>" data-tab="publish-strategy">
-      <%= render "publish_strategy_tab.html", [job: @job, spark_params: @job.spark_params, conn: @conn] %>
+      <%= render "publish_strategy_tab.html", [template: @template, params: @template.params, conn: @conn] %>
     </div>
 
     <div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "functional") %>" data-tab="functional">
-      <%= render "functional_params_tab.html", [job: @job, spark_params: @job.spark_params, conn: @conn] %>
+      <%= render "functional_params_tab.html", [template: @template, params: @template.params, conn: @conn] %>
     </div>
 
     <div class="ui bottom attached tab segment <%= active_tab_tag(@current_tab, "interscity") %>" data-tab="interscity">
-      <%= render "interscity_tab.html", [job: @job, spark_params: @job.spark_params, conn: @conn] %>
+      <%= render "interscity_tab.html", [template: @template, params: @template.params, conn: @conn] %>
     </div>
   </div>
 </div>
@@ -43,7 +43,7 @@
     <div class="ui animated fade button green" tabindex="0" >
       <div class="visible content"><i class="play icon"></i></div>
       <div class="hidden content">
-        <a href="<%= job_params_path(@conn, :schedule_spark_job, %{"id" => @job.id}) %>">
+        <a href="<%= job_template_path(@conn, :schedule_spark_job, %{"id" => @template.id}) %>">
           New
         </a>
       </div>
@@ -52,14 +52,14 @@
     <div class="ui animated fade button blue" tabindex="0">
       <div class="visible content"><i class="book icon"></i></div>
       <div class="hidden content">
-        <a href="<%= job_params_path(@conn, :schedule_spark_job, %{"id" => @job.id}) %>">Edit</a>
+        <a href="<%= job_template_path(@conn, :edit, @template.id) %>">Edit</a>
       </div>
     </div>
 
     <div class="ui animated fade button red" tabindex="0">
       <div class="visible content"><i class="trash icon"></i></div>
       <div class="hidden content">
-        <a href="<%= job_params_path(@conn, :schedule_spark_job, %{"id" => @job.id}) %>">
+        <a href="<%= job_template_path(@conn, :schedule_spark_job, %{"id" => @template.id}) %>">
           Delete
         </a>
       </div>
@@ -76,7 +76,7 @@
     <div class="ui animated fade button" tabindex="0" >
       <div class="visible content"><i class="clone icon"></i></div>
       <div class="hidden content">
-        <a href="<%= job_params_path(@conn, :clone, %{"id" => @job.id}) %>">
+        <a href="<%= job_template_path(@conn, :clone, %{"id" => @template.id}) %>">
           Clone
         </a>
       </div>

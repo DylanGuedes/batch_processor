@@ -1,11 +1,11 @@
-defmodule DataProcessor.InterSCity.JobParams do
+defmodule DataProcessor.InterSCity.JobTemplate do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "job_params" do
-    field(:name, :string)
+  schema "job_templates" do
+    field(:title, :string)
 
-    field(:spark_params, :map,
+    field(:params, :map,
       default: %{
         schema: %{},
         publish_strategy: %{name: "file", format: "csv"},
@@ -20,35 +20,36 @@ defmodule DataProcessor.InterSCity.JobParams do
     timestamps()
   end
 
-  def changeset(job_params, attrs) do
-    job_params
-    |> cast(attrs, [:spark_params, :name, :handler, :scheduled_jobs])
-    |> validate_required([:name, :handler, :spark_params])
+  def changeset(struct, attrs) do
+    struct
+    |> cast(attrs, [:params, :title, :handler, :scheduled_jobs])
+    |> validate_required([:title, :handler, :params])
   end
 
-  def update_changeset(job_params, attrs) do
-    job_params
-    |> cast(attrs, [:name, :spark_params, :handler, :scheduled_jobs])
-    |> validate_required([:name, :handler])
+  def update_changeset(struct, attrs) do
+    IO.puts "[DEBUG] updatE_changeset "
+    struct
+    |> cast(attrs, [:title, :params, :handler, :scheduled_jobs])
+    |> validate_required([:title, :handler])
     |> validate_blank_schema_field()
   end
 
   def _validate_blank_schema_field(:error, changeset) do
-    spark_params = %{
+    params = %{
       schema: %{},
       publish_strategy: %{name: "file", format: "csv"},
       functional_params: %{},
       interscity: %{}
     }
 
-    changeset(changeset, %{spark_params: spark_params})
+    changeset(changeset, %{params: params})
   end
 
-  def _validate_blank_schema_field({:ok, spark_params}, changeset) do
-    spark_schema = Map.get(spark_params, :schema)
+  def _validate_blank_schema_field({:ok, params}, changeset) do
+    spark_schema = Map.get(params, :schema)
 
     case Map.has_key?(spark_schema, "") do
-      true -> add_error(changeset, :spark_params, "Empty field in schema")
+      true -> add_error(changeset, :params, "Empty field in schema")
       false -> changeset
     end
   end
@@ -56,7 +57,7 @@ defmodule DataProcessor.InterSCity.JobParams do
   def validate_blank_schema_field(changeset) do
     changeset
     |> Map.fetch!(:changes)
-    |> Map.fetch(:spark_params)
+    |> Map.fetch(:params)
     |> _validate_blank_schema_field(changeset)
   end
 end

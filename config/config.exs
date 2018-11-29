@@ -27,3 +27,19 @@ config :logger, :console,
 import_config "#{Mix.env}.exs"
 
 config :data_processor, :environment, Mix.env()
+
+# %% Coherence Configuration %%   Don't remove this line
+config :coherence,
+  user_schema: DataProcessor.Coherence.User,
+  repo: DataProcessor.Repo,
+  module: DataProcessor,
+  web_module: DataProcessorWeb,
+  router: DataProcessorWeb.Router,
+  messages_backend: DataProcessorWeb.Coherence.Messages,
+  logged_out_url: "/",
+  registration_permitted_attributes: ["email","name","password","current_password","password_confirmation"],
+  invitation_permitted_attributes: ["name","email"],
+  password_reset_permitted_attributes: ["reset_password_token","password","password_confirmation"],
+  session_permitted_attributes: ["remember","email","password"],
+  opts: [:authenticatable]
+# %% End Coherence Configuration %%

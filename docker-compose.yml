@@ -18,6 +18,8 @@ services:
   db:
     container_name: db
     image: 'postgres:10'
+    ports:
+      - 5432:5432
 
   master:
     image: 'gettyimages/spark'

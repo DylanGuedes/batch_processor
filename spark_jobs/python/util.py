@@ -9,7 +9,7 @@ DEFAULT_DATA_COLLECTOR_URL = "http://interscity-data-collector:3000"
 
 
 def mount_df_from_collector(capability, opts=None):
-    ingestion_strategy = "rest"
+    ingestion_strategy = "mongo"
     if ("ingestion_strategy" in opts["interscity"].keys()):
         ingestion_strategy = opts["interscity"]["ingestion_strategy"]
 

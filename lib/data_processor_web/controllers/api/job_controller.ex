@@ -7,7 +7,8 @@ defmodule DataProcessorWeb.API.JobController do
   alias DataProcessor.DockerJob
 
   @handlers %{
-    "linear_regression" => LinearRegression
+    "linear_regression" => DataProcessor.Handlers.LinearRegression,
+    "kmeans" => DataProcessor.Handlers.KMeans
   }
 
   def register_job(conn, params) do
